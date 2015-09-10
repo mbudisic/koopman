@@ -1,4 +1,4 @@
-KOOPMAN MODE DECOMPOSITION
+# KOOPMAN MODE DECOMPOSITION #
 
 Matlab toolbox for Koopman mode decomposition.
 
