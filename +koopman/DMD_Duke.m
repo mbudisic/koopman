@@ -1,4 +1,6 @@
 function [lambda, Modes] = DMD_Duke(Snapshots, dt, Nmd)
+%DMD_Duke Compute DMD using Duke algorithm.
+
   % We assume that OutputSnapshots = KoopmanOperator( InputSnapshots )
   % column-by-column
   InputSnapshots = Snapshots(:,1:end-1);
