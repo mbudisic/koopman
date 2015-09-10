@@ -5,8 +5,10 @@ import koopman.*
 xPoints = 201;
 tPoints = 501;
 
-[U1, t, x] = DukeSynthetic(xPoints, tPoints, -0.75 + 20i, 1+5i);
-[U2, t, x] = DukeSynthetic(xPoints, tPoints, 0.75 + 15i, 1+10i);
+TimeGrowth = 0.0;
+[U1, t, x] = DukeSynthetic(xPoints, tPoints, -TimeGrowth +20i, 1+5i);
+[U2, t, x] = DukeSynthetic(xPoints, tPoints, TimeGrowth + 15i, 1+10i);
+
 U = U1;
 
 NSR = 1/100; % noise to signal ratio
@@ -35,28 +37,35 @@ Shape = U(:,end);
 Shape = Shape/max(abs(Shape));
 Nmd = 4;
 
+[U, Mean] = removemean(U);
+
 tic
-[lambda_u1, Phi_u1] = DMD( U, dt, Nmd );
+[lambda_u1, Phi_u1] = DMD( U, dt, Nmd, true );
 toc
 tic
 [lambda_u2, Phi_u2] = DMD_Duke( U, dt, Nmd );
 toc
+tic
+[lambda_u3, Phi_u3] = KDFT( U, dt  );
+toc
+
 % tic
 % [lambda_n, Phi_n] = NDMD( U, t, Nmd );
 % toc
 
-% normalize = @(v)v/max(abs(v));
+normalize = @(v)v/max(abs(v));
 
-% subplot(1,2,2);
-% h = plot(x,[normalize(U(:,end)),...
-%             real(normalize(Phi_u1(:,1))), ...
-%             real(normalize(Phi_u2(:,2))),...
-%             real(normalize(Phi_n(:,2)))] );
-% h(1).DisplayName = 'Data';
-% h(2).DisplayName = 'Exact DMD';
-% h(3).DisplayName = 'Duke DMD';
-% h(4).DisplayName = 'N-DMD';
-% legend('Location','Best');
+subplot(1,2,2);
+h = plot(x,[normalize(U(:,end)),...
+            real(normalize(Phi_u1(:,1))), ...
+            real(normalize(Phi_u2(:,1))),...
+            real(normalize(Phi_u3(:,1)))] );
+h(1).DisplayName = 'Data';
+h(2).DisplayName = 'Exact DMD';
+h(3).DisplayName = 'Duke DMD';
+h(4).DisplayName = 'KDFT';
+legend('Location','Best');
 
-lambda_u1
-lambda_u2
+lambda_u1(1:Nmd)
+lambda_u2(1:Nmd)
+lambda_u3(1:Nmd)
