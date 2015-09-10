@@ -8,6 +8,7 @@ function [lambda, Modes] = DMD(Snapshots, dt, Nmd, debias)
 
   %% De-bias input Data (Hemati, Rowley)
   if nargin == 4 && debias
+    disp('De-biasing')
     if islogical(debias)
       r = 2*Nmd;
     else
@@ -40,3 +41,5 @@ function [lambda, Modes] = DMD(Snapshots, dt, Nmd, debias)
   if nargin >= 2 && ~isempty(dt)
     lambda = lambda/dt;
   end
+
+  [lambda, Modes] = sortmodes( lambda, Modes );

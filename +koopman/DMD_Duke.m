@@ -19,3 +19,5 @@ function [lambda, Modes] = DMD_Duke(Snapshots, dt, Nmd)
   if nargin >= 2 && ~isempty(dt)
     lambda = lambda/dt;
   end
+
+  [lambda, Modes] = sortmodes( lambda, Modes );
