@@ -1,0 +1,16 @@
+*.mex*
+*.o
+*.a
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.idx
+*.ilg
+*.ind
+*.toc
+.depends
+**/#*#
+**/.#*
+**/*~
