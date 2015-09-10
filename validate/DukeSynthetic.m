@@ -27,8 +27,6 @@ fprintf('Space Peak: %f\n',Kappa/sqrt(1-ZetaX.^2))
 
 U0 = 1;     % amplitude
 
-
-
 xAx = linspace(0,2,xPoints);
 tAx = linspace(0,5,tPoints);
 

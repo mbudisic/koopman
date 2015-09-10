@@ -1,3 +1,5 @@
+import koopman.*
+
 xPoints = 201;
 tPoints = 501;
 
