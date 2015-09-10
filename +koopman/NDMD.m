@@ -1,4 +1,4 @@
-function [lambda, M] = NDMD( snapshots, t, Nmd )
+function [lambda, Modes] = NDMD( snapshots, t, Nmd )
 %NDMD Compute DMD for nonuniformly sampled data.
 %
 % Uses algorithm by Gueniat et al 2015
@@ -49,6 +49,8 @@ function [lambda, M] = NDMD( snapshots, t, Nmd )
   lambda = ComplexOptimize( normRes, guess )
   normRes(lambda)
 
-  M = snapshots*pinv(Lambda(lambda));
+  Modes = snapshots*pinv(Lambda(lambda));
+
+  [lambda, Modes] = sortmodes( lambda, Modes );
 
 end
