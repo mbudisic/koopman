@@ -1,3 +1,5 @@
+function DukeDataCalibrationTest
+
 import koopman.*
 
 xPoints = 201;
@@ -39,23 +41,22 @@ toc
 tic
 [lambda_u2, Phi_u2] = DMD_Duke( U, dt, Nmd );
 toc
-tic
-[lambda_n, Phi_n] = NDMD( U, t, Nmd );
-toc
+% tic
+% [lambda_n, Phi_n] = NDMD( U, t, Nmd );
+% toc
 
-normalize = @(v)v/max(abs(v));
+% normalize = @(v)v/max(abs(v));
 
-subplot(1,2,2);
-h = plot(x,[normalize(U(:,end)),...
-            real(normalize(Phi_u1(:,1))), ...
-            real(normalize(Phi_u2(:,2))),...
-            real(normalize(Phi_n(:,2)))] );
-h(1).DisplayName = 'Data';
-h(2).DisplayName = 'Exact DMD';
-h(3).DisplayName = 'Duke DMD';
-h(4).DisplayName = 'N-DMD';
-legend('Location','Best');
+% subplot(1,2,2);
+% h = plot(x,[normalize(U(:,end)),...
+%             real(normalize(Phi_u1(:,1))), ...
+%             real(normalize(Phi_u2(:,2))),...
+%             real(normalize(Phi_n(:,2)))] );
+% h(1).DisplayName = 'Data';
+% h(2).DisplayName = 'Exact DMD';
+% h(3).DisplayName = 'Duke DMD';
+% h(4).DisplayName = 'N-DMD';
+% legend('Location','Best');
 
 lambda_u1
 lambda_u2
-lambda_n
