@@ -3,6 +3,8 @@ function sol = ComplexOptimize( f, guess )
 % Minimize a (scalar) function f of complex variables using Matlab's
 % standard (real) optimizers.
 
+% Copyright 2015 under BSD license (see LICENSE file).
+
   CtoR = @(z)[real(z); imag(z)];
   RtoC = @(x)complex(x(1:(numel(x)/2)),x((numel(x)/2)+1:end));
 

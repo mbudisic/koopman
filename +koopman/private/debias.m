@@ -14,6 +14,9 @@ function [InputSnapshots, OutputSnapshots] = debias(Snapshots, r )
 %    Retain only r dominant SVD directions to debias the matrix.
 %
 
+% Copyright 2015 under BSD license (see LICENSE file).
+
+
 % We assume that OutputSnapshots = KoopmanOperator( InputSnapshots )
 % column-by-column
 InputSnapshots = Snapshots(:,1:end-1);

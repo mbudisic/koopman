@@ -9,6 +9,8 @@ function [lambda, Modes] = NDMD( snapshots, t, Nmd )
 % t -- vector of times at which data was recorded
 % Nmd -- number of modes to retain
 
+% Copyright 2015 under BSD license (see LICENSE file).
+
   validateattributes(t, {'numeric'},{'vector','increasing'});
   tRef = t(1);
   t = t-tRef;

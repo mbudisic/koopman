@@ -17,8 +17,7 @@ function [lambda, Modes] = KDFT(Snapshots, dt)
 %    lambda and Modes are sorted by l2-norm of columns of Modes, in
 %    descending order.
 
-
-% Copyright information in LICENSE file of the package.
+% Copyright 2015 under BSD license (see LICENSE file).
 
 % number of snapshots
 N = size(Snapshots, 2);

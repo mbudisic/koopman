@@ -22,8 +22,10 @@ function [lambda, Modes] = DMD_Duke(Snapshots, dt, Nmd, varargin)
 %    "de-bias" using Hemati, Rowley procedure. Alternatively, if db is a
 %    positive integer, use db modes to debias.
 %
+%
+% See also DMD, KDFT
 
-% Copyright information in LICENSE file of the package.
+% Copyright 2015 under BSD license (see LICENSE file).
 
   % We assume that OutputSnapshots = KoopmanOperator( InputSnapshots )
   % column-by-column

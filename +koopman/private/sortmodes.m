@@ -5,6 +5,8 @@ function [lambda, Modes] = sortmodes( lambda, Modes, sorttype );
 %  sorting.
 %
 
+% Copyright 2015 under BSD license (see LICENSE file).
+
 % assert the sizes match
 assert( numel(lambda) == size(Modes,2), ...
         ['Number of frequencies and modes has to match']);

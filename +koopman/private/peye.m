@@ -8,6 +8,8 @@ function X = peye(A,r)
 %  PEYE(..., r) As above, except exactly r dominant singular vectors are retained.
 %
 
+% Copyright 2015 under BSD license (see LICENSE file).
+
   [~,S,V] = svd(A,'econ');
   s = diag(S);
 

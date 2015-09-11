@@ -31,9 +31,9 @@ function [lambda, Modes] = DMD(Snapshots, dt, Nmd, db)
 %    directions. Alternatively, user can request a specific number of
 %    directions by passing an integer through debias.
 %
+%
 
-% Copyright information in LICENSE file of the package.
-
+% Copyright 2015 under BSD license (see LICENSE file).
 
   % We assume that OutputSnapshots = KoopmanOperator( InputSnapshots )
   % column-by-column

@@ -8,8 +8,12 @@ function DukeCalibration(isNoisy)
 % It then computes Koopman modes using exact, Duke, and DFT algorithms and
 % plots them.
 %
-% This function should be interpreted as a "sanity" check for Koopman mode techniques.
+% This function should be interpreted as a "sanity" check for Koopman mode
+% techniques.
 %
+
+% Copyright 2015 under BSD license (see LICENSE file).
+
 
 import koopman.*
 
