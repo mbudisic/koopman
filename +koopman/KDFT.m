@@ -14,7 +14,7 @@ Np = size(F,2);
 F = F/Np;
 
 % use single-sided FFT
-Modes = F(:,1:(Np/2+1));
+Modes = F(:,1:(floor(Np/2)+1));
 Modes(:, 2:end-1) = 2*Modes(:, 2:end-1);
 
 % Frequencies at which modes are obtained
