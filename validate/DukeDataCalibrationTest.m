@@ -43,7 +43,7 @@ tic
 [lambda_u1, Phi_u1] = DMD( U, dt, Nmd, true );
 toc
 tic
-[lambda_u2, Phi_u2] = DMD_Duke( U, dt, Nmd );
+[lambda_u2, Phi_u2] = DMD_Duke( U, dt, Nmd, true );
 toc
 tic
 [lambda_u3, Phi_u3] = KDFT( U, dt  );
