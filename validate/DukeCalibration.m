@@ -55,15 +55,15 @@ fprintf('FFT-detected space ang. freq: %f\n', xPeak(1,1));
 
 Shape = U(:,end);
 Shape = Shape/max(abs(Shape));
-Nmd = 4;
+Nmd = 10;
 
 [U, Mean] = removemean(U);
 
 tic
-[lambda_u1, Phi_u1] = DMD( U, dt, Nmd, true );
+[lambda_u1, Phi_u1] = DMD( U, dt, true );
 toc
 tic
-[lambda_u2, Phi_u2] = DMD_Duke( U, dt, Nmd, true );
+[lambda_u2, Phi_u2] = DMD_Duke( U, dt, true );
 toc
 tic
 [lambda_u3, Phi_u3] = KDFT( U, dt  );
