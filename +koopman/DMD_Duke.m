@@ -1,5 +1,5 @@
 function [lambda, Modes] = DMD_Duke(Snapshots, dt, Nmd, varargin)
-%DMD_Duke Compute Dynamic Mode Decomposition using exact DMD.
+%DMD_DUKE Compute Koopman modes by Dynamic Mode Decomposition algorithm by Duke et al.
 %
 % This is the algorithm by Duke, Daniel, Julio Soria, and Damon
 % Honnery. 2012. “An Error Analysis of the Dynamic Mode Decomposition.”
@@ -22,6 +22,8 @@ function [lambda, Modes] = DMD_Duke(Snapshots, dt, Nmd, varargin)
 %    "de-bias" using Hemati, Rowley procedure. Alternatively, if db is a
 %    positive integer, use db modes to debias.
 %
+
+% Copyright information in LICENSE file of the package.
 
   % We assume that OutputSnapshots = KoopmanOperator( InputSnapshots )
   % column-by-column

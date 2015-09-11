@@ -1,5 +1,5 @@
 function [lambda, Modes] = DMD(Snapshots, dt, Nmd, db)
-%DMD Compute Dynamic Mode Decomposition using exact DMD.
+%DMD Compute Koopman modes by "exact" Dynamic Mode Decomposition of Tu et al.
 %
 % This is the algorithm by Tu, Jonathan H., Clarence W. Rowley, Dirk
 % M. Luchtenburg, Steven L. Brunton, and J. Nathan Kutz. 2013. “On Dynamic
@@ -31,6 +31,8 @@ function [lambda, Modes] = DMD(Snapshots, dt, Nmd, db)
 %    directions. Alternatively, user can request a specific number of
 %    directions by passing an integer through debias.
 %
+
+% Copyright information in LICENSE file of the package.
 
 
   % We assume that OutputSnapshots = KoopmanOperator( InputSnapshots )
