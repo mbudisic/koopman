@@ -40,3 +40,6 @@ lambda = complex(0, 2*pi*Fs*(0:(Np/2))/Np).';
 
 % sort modes
 [lambda, Modes] = sortmodes( lambda, Modes );
+
+%assert( all(columnNorm(Modes) == 1) );
+Modes = bsxfun( @rdivide, Modes, koopman.columnNorm(Modes) );
