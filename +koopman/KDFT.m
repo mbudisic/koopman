@@ -1,5 +1,6 @@
 function [lambda, Modes] = KDFT(Snapshots, dt)
-%KDFT Compute Koopman modes using Discrete Fourier Transform (FFT).
+%KDFT Compute Koopman modes using Discrete Fourier Transform (FFT), as used
+%by Mezic group at UC Santa Barbara.
 %
 % [lambda, Modes] = KDFT( Snapshots, dt )
 %    Compute Koopman modes of data in Snapshots matrix. Columns of Snapshots are
