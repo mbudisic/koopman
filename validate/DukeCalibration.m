@@ -1,30 +1,46 @@
-function DukeDataCalibrationTest
+function DukeCalibration(isNoisy)
+%DUKECALIBRATION Compute Koopman modes using several techniques on
+%synthetic data.
+%
+% This function implements the data set similar to
+% Duke, Daniel, Julio Soria, and Damon Honnery. 2012. “An Error Analysis of the Dynamic Mode Decomposition.” Experiments in Fluids 52 (2): 529–42. doi:10.1007/s00348-011-1235-7.
+%
+% It then computes Koopman modes using exact, Duke, and DFT algorithms and
+% plots them.
+%
+% This function should be interpreted as a "sanity" check for Koopman mode techniques.
+%
 
 import koopman.*
 
-xPoints = 201;
-tPoints = 501;
+%%
+% Set up the domains
+xPoints = 201; % points on space domain
+tPoints = 501; % points on time domain
 
-TimeGrowth = 0.0;
-[U1, t, x] = DukeSynthetic(xPoints, tPoints, -TimeGrowth +20i, 1+5i);
-[U2, t, x] = DukeSynthetic(xPoints, tPoints, TimeGrowth + 15i, 1+10i);
+% Generate Duke Synthetic Data set
+[U, t, x] = DukeSynthetic(xPoints, tPoints, 20i, 1+5i);
 
-U = U1;
+dt = t(2)-t(1); % sample time
+dx = x(2)-x(1); % sample step
 
-NSR = 1/100; % noise to signal ratio
-Noise = (2*rand(size(U)) - 1) * NSR;
-%U = U .* (1 + Noise);
+% Add multiplicative noise
+if nargin == 1 && isNoisy
+  NSR = 5/100; % noise to signal ratio
+  Noise = (2*rand(size(U)) - 1) * NSR;
+  U = U .* (1 + Noise);
+end
 
-
-dt = t(2)-t(1);
-dx = x(2)-x(1);
-
-subplot(1,2,1);
+figure
 pcolor( t, x, U );
 xlabel('Time t');
 ylabel('Space x');
 shading interp
+title('Synthetic Duke data')
+colorbar
 
+figure
+subplot(1,2,1)
 tPeak = getspectrum( U(end,:), dt );
 xPeak = getspectrum( U(:,end), dx );
 
