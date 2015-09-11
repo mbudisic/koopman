@@ -1,14 +1,13 @@
-function [lambda, Modes] = DMD_Duke(Snapshots, dt, Nmd, varargin)
+function [lambda, Modes] = DMD_Duke(Snapshots, dt, varargin)
 %DMD_DUKE Compute Koopman modes by Dynamic Mode Decomposition algorithm by Duke et al.
 %
 % This is the algorithm by Duke, Daniel, Julio Soria, and Damon
 % Honnery. 2012. “An Error Analysis of the Dynamic Mode Decomposition.”
 % Experiments in Fluids 52 (2): 529–42. doi:10.1007/s00348-011-1235-7.
 %
-% [lambda, Modes] = DMD_Duke( Snapshots, dt, Nmd )
+% [lambda, Modes] = DMD_Duke( Snapshots, dt )
 %    Compute DMD of data in Snapshots matrix. Columns of Snapshots are
-%    measurements taken dt apart. Nmd is the number of modes to be
-%    computed.
+%    measurements taken dt apart.
 %
 %    lambda -- list of complex Dynamic Mode frequencies, real part is the
 %    decay rate, imaginary part (angular) frequency.
@@ -35,7 +34,7 @@ function [lambda, Modes] = DMD_Duke(Snapshots, dt, Nmd, varargin)
 
   S = pinv(R) * Q' * OutputSnapshots;
 
-  [X, lambda] = eigs(S, [], Nmd,'LR');
+  [X, lambda] = eigs(S, size(S,1)-2);
   lambda = diag(lambda);
 
   %% Calculate modes
@@ -46,3 +45,4 @@ function [lambda, Modes] = DMD_Duke(Snapshots, dt, Nmd, varargin)
   end
 
   [lambda, Modes] = sortmodes( lambda, Modes );
+  Modes = bsxfun( @rdivide, Modes, koopman.columnNorm(Modes) );

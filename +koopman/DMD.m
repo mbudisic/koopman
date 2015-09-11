@@ -1,4 +1,4 @@
-function [lambda, Modes] = DMD(Snapshots, dt, Nmd, db)
+function [lambda, Modes] = DMD(Snapshots, dt, db)
 %DMD Compute Koopman modes by "exact" Dynamic Mode Decomposition of Tu et al.
 %
 % This is the algorithm by Tu, Jonathan H., Clarence W. Rowley, Dirk
@@ -6,10 +6,9 @@ function [lambda, Modes] = DMD(Snapshots, dt, Nmd, db)
 % Mode Decomposition: Theory and Applications.” Journa of Computational
 % Dynamics, doi:10.3934/jcd.2014.1.391.
 %
-% [lambda, Modes] = DMD( Snapshots, dt, Nmd )
+% [lambda, Modes] = DMD( Snapshots, dt )
 %    Compute DMD of data in Snapshots matrix. Columns of Snapshots are
-%    measurements taken dt apart. Nmd is the number of modes to be
-%    computed.
+%    measurements taken dt apart.
 %
 %    lambda -- list of complex Dynamic Mode frequencies, real part is the
 %    decay rate, imaginary part (angular) frequency.
@@ -48,7 +47,7 @@ function [lambda, Modes] = DMD(Snapshots, dt, Nmd, db)
   %% Eigenvectors of Atilde will give Koopman modes
   Atilde = Ux' * OutputSnapshots * Vx * SxInv;
 
-  [w, lambda] = eigs(Atilde, [], Nmd, 'LR');
+  [w, lambda] = eigs(Atilde, size(Atilde,1)-2);
   lambda = diag(lambda);
 
   %% Calculate modes
@@ -61,3 +60,4 @@ function [lambda, Modes] = DMD(Snapshots, dt, Nmd, db)
   end
 
   [lambda, Modes] = sortmodes( lambda, Modes );
+  Modes = bsxfun( @rdivide, Modes, koopman.columnNorm(Modes) );
