@@ -65,7 +65,7 @@ if nargout > 0
     varargout{3} = Modes;
   end
   if nargout >= 4
-    varargout{4} = idx;
+    varargout{4} = Amps;
   end
 end
 
