@@ -3,7 +3,13 @@ function DukeCalibration(isNoisy)
 %synthetic data.
 %
 % This function implements the data set similar to
-% Duke, Daniel, Julio Soria, and Damon Honnery. 2012. “An Error Analysis of the Dynamic Mode Decomposition.” Experiments in Fluids 52 (2): 529–42. doi:10.1007/s00348-011-1235-7.
+% Duke, Daniel, Julio Soria, and Damon Honnery. 2012. “An Error Analysis of
+% the Dynamic Mode Decomposition.” Experiments in Fluids 52 (2):
+% 529–42. doi:10.1007/s00348-011-1235-7.
+
+% DUKECALIBRATION(ISNOISY)
+% Data set contains an exponential spatial and temporal shape, with added
+% noise (SNR=100) (unless FALSE) is passed as the argument
 %
 % It then computes Koopman modes using exact, Duke, and DFT algorithms and
 % plots them.
@@ -13,7 +19,6 @@ function DukeCalibration(isNoisy)
 %
 
 % Copyright 2015 under BSD license (see LICENSE file).
-
 
 import koopman.*
 
@@ -29,11 +34,15 @@ dt = t(2)-t(1); % sample time
 dx = x(2)-x(1); % sample step
 
 % Add multiplicative noise
-if nargin == 1 && isNoisy
+if nargin == 1 && ~isNoisy
+  disp('Noiseless')
+else
+  disp('Adding noise')
   NSR = 5/100; % noise to signal ratio
   Noise = (2*rand(size(U)) - 1) * NSR;
   U = U .* (1 + Noise);
 end
+
 
 figure
 pcolor( t, x, U );
@@ -60,14 +69,16 @@ Nmd = 10;
 [U, Mean] = removemean(U);
 
 tic
-[lambda_u1, Phi_u1] = DMD( U, dt, true );
+[lambda_u1, Phi_u1, Amp_u1] = DMD( U, dt, true );
 toc
 tic
-[lambda_u2, Phi_u2] = DMD_Duke( U, dt, true );
+[lambda_u2, Phi_u2, Amp_u2] = DMD_Duke( U, dt, true );
 toc
 tic
-[lambda_u3, Phi_u3] = KDFT( U, dt  );
+[lambda_u3, Phi_u3, Amp_u3] = KDFT( U, dt  );
 toc
+
+
 
 % tic
 % [lambda_n, Phi_n] = NDMD( U, t, Nmd );
@@ -76,7 +87,7 @@ toc
 normalize = @(v)v/max(abs(v));
 
 subplot(1,2,2);
-h = plot(x,[normalize(U(:,end)),...
+h = plot(x,[normalize(U(:,1)),...
             real(normalize(Phi_u1(:,1))), ...
             real(normalize(Phi_u2(:,1))),...
             real(normalize(Phi_u3(:,1)))] );
