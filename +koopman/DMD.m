@@ -1,4 +1,4 @@
-function [lambdas, Modes, Amp] = DMD(Snapshots, dt, db)
+function [lambdas, Modes, Amps] = DMD(Snapshots, dt, db)
 %DMD Compute Koopman modes by "exact" Dynamic Mode Decomposition of Tu et al.
 %
 % This is the algorithm by Tu, Jonathan H., Clarence W. Rowley, Dirk
@@ -6,19 +6,17 @@ function [lambdas, Modes, Amp] = DMD(Snapshots, dt, db)
 % Mode Decomposition: Theory and Applications.” Journa of Computational
 % Dynamics, doi:10.3934/jcd.2014.1.391.
 %
-% [lambdas, Modes] = DMD( Snapshots, dt )
+% [lambdas, Modes, Amps] = DMD( Snapshots, dt )
 %    Compute DMD of data in Snapshots matrix. Columns of Snapshots are
 %    measurements taken dt apart.
 %
 %    lambdas -- list of complex Dynamic Mode frequencies, real part is the
 %    decay rate, imaginary part (angular) frequency.
-%    Modes  -- each column of the matrix is a Dynamic Mode, corresponding
+%    Modes  -- each L2-normalized column of the matrix is a Dynamic Mode, corresponding
 %    to the lambdas at the same index.
+%    Amps   -- optimal L2 amplitudes used to sort the modes in descending order
 %
-%    lambdas and Modes are sorted by l2-norm of columns of Modes, in
-%    descending order.
-%
-% [lambdas, Modes] = DMD( ..., db ) If set to true, debias first
+% [lambdas, Modes, Amps] = DMD( ..., db ) If set to true, debias first
 %    "de-biases" the data using truncation of SVD modes of the snapshot
 %    matrix, according to:
 %
@@ -31,6 +29,7 @@ function [lambdas, Modes, Amp] = DMD(Snapshots, dt, db)
 %    directions by passing an integer through debias.
 %
 %
+% See also DMD_DUKE, KDFT, L2OPTIMALMODEAMPLITUDES
 
 % Copyright 2015 under BSD license (see LICENSE file).
 
@@ -56,12 +55,14 @@ function [lambdas, Modes, Amp] = DMD(Snapshots, dt, db)
   %  Modes = Snapshots(:,2:end) * Vx * SxInv * w * diag(1./lambdas);
   Modes = Ux * w;
 
+  %%
+  % Return complex arguments of lambdas, as they have physical
+  % interpretations as DecayRate + 1j * Frequency
   lambdas = log(lambdas);
   if ~isempty(dt)
     lambdas = lambdas/dt;
   end
 
-  [lambdas, Modes] = sortmodes( lambdas, Modes );
-  Modes = bsxfun( @rdivide, Modes, koopman.columnNorm(Modes) );
-
-  [lambdas, Modes, Amp] = sortByAmplitude( lambdas, Modes, Snapshots, dt);
+  %%
+  % Sort modes according to their optimal L2 contributions
+  [~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
