@@ -9,6 +9,9 @@ function [U, tAx, xAx] = DukeSynthetic( xPoints, tPoints, TimeCF, SpaceCF )
 %
 % If called without return arguments, plot is produced.
 
+TimeLength = 5;
+SpaceWidth = 3;
+
 % Parameters used in Gueniat et al. 2015
 %Omega = 20; % time frequency
 %Kappa = 10;  % space frequency
@@ -27,8 +30,8 @@ fprintf('Space Peak: %f\n',Kappa/sqrt(1-ZetaX.^2))
 
 U0 = 1;     % amplitude
 
-xAx = linspace(0,3,xPoints);
-tAx = linspace(0,5,tPoints);
+xAx = linspace(0,SpaceWidth,xPoints);
+tAx = linspace(0,TimeLength,tPoints);
 
 [t,x] = meshgrid(tAx,xAx);
 
