@@ -22,12 +22,11 @@ validateattributes( Snapshots, {'numeric'},...
 validateattributes( Modes, {'numeric'},...
                     {'2d','nrows',size(Snapshots,1)});
 
-% scale modes to unit norm
-%Modes = bsxfun( @rdivide, Modes, columnNorm(Modes) );
-
 % generalized Vandermonde matrix
 Vand = exp( bsxfun( @times, lambdas, t ) );
 
+%%
+% Solve L2 optimization, see Jovanovic et al (2014)
 [U,Sigma,V] = svd(Snapshots);
 
 Y = U'*Modes;
@@ -35,7 +34,3 @@ P = (Y'*Y) .* conj(Vand*Vand');
 q = conj( diag(Vand*V*Sigma'*Y) );
 
 Amp = pinv(P)*q;
-
-% Amp = abs(Alpha);
-% Angles = Alpha ./ Amp;
-% PhasedModes = bsxfun( @times, Modes, conj(Angles(:).') );
