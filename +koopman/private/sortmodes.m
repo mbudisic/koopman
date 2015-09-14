@@ -40,12 +40,13 @@ Modes = bsxfun( @rdivide, Modes, NormOfModes );
 
 %%
 % Compute L2 optimal amplitudes
-Amps = L2optimalModeAmplitudes( lambdas, Modes, Snapshots, T );
+Amps = koopman.L2optimalModeAmplitudes( lambdas, Modes, Snapshots, T );
+validateattributes(Amps,{'numeric'},{'column', 'numel', M})
 
 %%
 % sort the Norms in descending order, and use the order to sort frequencies
 % and modes themselves
-[Amps,idx] = sort( Amps, 2, 'descend' );
+[Amps,idx] = sort( Amps, 1, 'descend' );
 lambdas = lambdas(idx);
 Modes = Modes(:,idx);
 

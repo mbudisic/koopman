@@ -1,4 +1,4 @@
-function AMP = L2optimalModeAmplitudes( lambdas, Modes, Snapshots, t )
+function Amp = L2optimalModeAmplitudes( lambdas, Modes, Snapshots, t )
 %L2OPTIMALMODEAMPLITUDES Compute optimal L2 reconstruction of data by modes.
 %
 % Use L2-residual minimization to compute optimal (complex) amplitudes that
@@ -9,6 +9,7 @@ function AMP = L2optimalModeAmplitudes( lambdas, Modes, Snapshots, t )
 % Physics of Fluids (1994-Present) 26 (2): 024103.
 %
 % AMP = L2OPTIMALMODEAMPLITUDES( LAMBDAS, MODES, SNAPSHOTS, T )
+%   Returns a column-vector of amplitudes.
 %
 
 import koopman.*
