@@ -47,3 +47,8 @@ function [lambdas, Modes, Amps] = DMD_Duke(Snapshots, dt, varargin)
   %%
   % Sort modes according to their optimal L2 contributions
   [~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
+
+  % make amplitudes real numbers
+  Phases = Amps./abs(Amps);
+  Amps = abs(Amps);
+  Modes = bsxfun( @times, Modes, Phases(:)' );
