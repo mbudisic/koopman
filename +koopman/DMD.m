@@ -1,4 +1,4 @@
-function [lambda, Modes] = DMD(Snapshots, dt, db)
+function [lambdas, Modes, Amp] = DMD(Snapshots, dt, db)
 %DMD Compute Koopman modes by "exact" Dynamic Mode Decomposition of Tu et al.
 %
 % This is the algorithm by Tu, Jonathan H., Clarence W. Rowley, Dirk
@@ -6,19 +6,19 @@ function [lambda, Modes] = DMD(Snapshots, dt, db)
 % Mode Decomposition: Theory and Applications.” Journa of Computational
 % Dynamics, doi:10.3934/jcd.2014.1.391.
 %
-% [lambda, Modes] = DMD( Snapshots, dt )
+% [lambdas, Modes] = DMD( Snapshots, dt )
 %    Compute DMD of data in Snapshots matrix. Columns of Snapshots are
 %    measurements taken dt apart.
 %
-%    lambda -- list of complex Dynamic Mode frequencies, real part is the
+%    lambdas -- list of complex Dynamic Mode frequencies, real part is the
 %    decay rate, imaginary part (angular) frequency.
 %    Modes  -- each column of the matrix is a Dynamic Mode, corresponding
-%    to the lambda at the same index.
+%    to the lambdas at the same index.
 %
-%    lambda and Modes are sorted by l2-norm of columns of Modes, in
+%    lambdas and Modes are sorted by l2-norm of columns of Modes, in
 %    descending order.
 %
-% [lambda, Modes] = DMD( ..., db ) If set to true, debias first
+% [lambdas, Modes] = DMD( ..., db ) If set to true, debias first
 %    "de-biases" the data using truncation of SVD modes of the snapshot
 %    matrix, according to:
 %
@@ -34,6 +34,8 @@ function [lambda, Modes] = DMD(Snapshots, dt, db)
 
 % Copyright 2015 under BSD license (see LICENSE file).
 
+  import koopman.*
+
   % We assume that OutputSnapshots = KoopmanOperator( InputSnapshots )
   % column-by-column
   [InputSnapshots,OutputSnapshots] = debias(Snapshots, db);
@@ -47,17 +49,19 @@ function [lambda, Modes] = DMD(Snapshots, dt, db)
   %% Eigenvectors of Atilde will give Koopman modes
   Atilde = Ux' * OutputSnapshots * Vx * SxInv;
 
-  [w, lambda] = eigs(Atilde, size(Atilde,1)-2);
-  lambda = diag(lambda);
+  [w, lambdas] = eigs(Atilde, size(Atilde,1)-2);
+  lambdas = diag(lambdas);
 
   %% Calculate modes
-  %  Modes = Snapshots(:,2:end) * Vx * SxInv * w * diag(1./lambda);
+  %  Modes = Snapshots(:,2:end) * Vx * SxInv * w * diag(1./lambdas);
   Modes = Ux * w;
 
-  lambda = log(lambda);
+  lambdas = log(lambdas);
   if ~isempty(dt)
-    lambda = lambda/dt;
+    lambdas = lambdas/dt;
   end
 
-  [lambda, Modes] = sortmodes( lambda, Modes );
+  [lambdas, Modes] = sortmodes( lambdas, Modes );
   Modes = bsxfun( @rdivide, Modes, koopman.columnNorm(Modes) );
+
+  [lambdas, Modes, Amp] = sortByAmplitude( lambdas, Modes, Snapshots, dt);
