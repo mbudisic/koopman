@@ -64,15 +64,15 @@ fprintf('FFT-detected space ang. freq: %f\n', xPeak(1,1));
 
 Shape = U(:,end);
 Shape = Shape/max(abs(Shape));
-Nmd = 10;
+Nmd = 5;
 
 [U, Mean] = removemean(U);
 
 tic
-[lambda_u1, Phi_u1, Amp_u1] = DMD( U, dt, true );
+[lambda_u1, Phi_u1, Amp_u1] = DMD( U, dt, 20 );
 toc
 tic
-[lambda_u2, Phi_u2, Amp_u2] = DMD_Duke( U, dt, true );
+[lambda_u2, Phi_u2, Amp_u2] = DMD_Duke( U, dt, 20 );
 toc
 tic
 [lambda_u3, Phi_u3, Amp_u3] = KDFT( U, dt  );
@@ -88,15 +88,23 @@ normalize = @(v)v/max(abs(v));
 
 subplot(1,2,2);
 h = plot(x,[normalize(U(:,1)),...
-            real(normalize(Phi_u1(:,1))), ...
-            real(normalize(Phi_u2(:,1))),...
-            real(normalize(Phi_u3(:,1)))] );
+            normalize(real(Phi_u1(:,1))), ...
+            normalize(real(Phi_u2(:,1))),...
+            normalize(real(Phi_u3(:,1)))] );
 h(1).DisplayName = 'Data';
 h(2).DisplayName = 'Exact DMD';
 h(3).DisplayName = 'Duke DMD';
 h(4).DisplayName = 'KDFT';
 legend('Location','Best');
 
+disp('Exact DMD:')
+Amp_u1(1:Nmd).'
 lambda_u1(1:Nmd)
+
+disp('Duke DMD:')
+Amp_u2(1:Nmd).'
 lambda_u2(1:Nmd)
+
+disp('KDFT:')
+Amp_u3(1:Nmd).'
 lambda_u3(1:Nmd)
