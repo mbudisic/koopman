@@ -14,7 +14,11 @@ function [lambdas, Modes, Amps] = KDFT(Snapshots, dt)
 %    decay rate, imaginary part (angular) frequency.
 %    Modes  -- each L2-normalized column of the matrix is a Koopman mode, corresponding
 %    to the lambdas at the same index.
-%    Amps   -- optimal L2 amplitudes used to sort the modes in descending order
+%    Amps   -- optimal L2 amplitudes used to sort the modes in descending
+%    order
+%
+% The function returns both conjugate pairs of the modes and their frequencies.
+% See also DMD_DUKE, DMD, L2OPTIMALMODEAMPLITUDES
 
 % Copyright 2015 under BSD license (see LICENSE file).
 
@@ -31,18 +35,23 @@ F = fft( Snapshots, [], 2 );
 Np = size(F,2);
 F = F/Np;
 
-% use single-sided FFT
-Modes = F(:,1:(floor(Np/2)+1));
-Modes(:, 2:end-1) = 2*Modes(:, 2:end-1);
 
-% Frequencies at which modes are obtained
-lambdas = complex(0, 2*pi*Fs*(0:(Np/2))/Np).';
+endIdx = (Np-1)/2; % maximum mode index
+validateattributes(endIdx,{'numeric'},{'positive','integer'});
+assert( size(F,2) == (endIdx*2+1), 'Mode index incorrectly computed');
+
+
+% use double-sided FFT
+idx = [0:endIdx, -endIdx:-1];
+lambdas = complex(0, 2*pi*Fs*(idx/Np)).';
+Modes = F;
+
+% % use single-sided FFT
+% idx = [0:endIdx];
+% lambdas = complex(0, 2*pi*Fs*(idx/Np)).';
+% Modes = F(:,idx+1);
+
 
 %%
 % Sort modes according to their optimal L2 contributions
 [~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
-% make amplitudes real numbers
-Phases = Amps./abs(Amps);
-Amps = abs(Amps);
-
-Modes = bsxfun( @times, Modes, Phases(:)' );
