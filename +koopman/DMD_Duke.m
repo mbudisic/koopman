@@ -19,6 +19,7 @@ function [lambdas, Modes, Amps] = DMD_Duke(Snapshots, dt, varargin)
 %    "de-bias" using Hemati, Rowley procedure. Alternatively, if db is a
 %    positive integer, use db modes to debias.
 %
+% The function returns both conjugate pairs of the modes and their frequencies.
 %
 % See also DMD, KDFT, L2OPTIMALMODEAMPLITUDES
 
@@ -47,8 +48,3 @@ function [lambdas, Modes, Amps] = DMD_Duke(Snapshots, dt, varargin)
   %%
   % Sort modes according to their optimal L2 contributions
   [~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
-
-  % make amplitudes real numbers
-  Phases = Amps./abs(Amps);
-  Amps = abs(Amps);
-  Modes = bsxfun( @times, Modes, Phases(:)' );
