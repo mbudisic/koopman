@@ -78,23 +78,21 @@ tic
 [lambda_u3, Phi_u3, Amp_u3] = KDFT( U, dt  );
 toc
 
-
-
-% tic
-% [lambda_n, Phi_n] = NDMD( U, t, Nmd );
-% toc
-
 normalize = @(v)v/max(abs(v));
 
+
+
 subplot(1,2,2);
-h = plot(x,[normalize(U(:,1)),...
-            normalize(real(Phi_u1(:,1))), ...
-            normalize(real(Phi_u2(:,1))),...
-            normalize(real(Phi_u3(:,1)))] );
-h(1).DisplayName = 'Data';
-h(2).DisplayName = 'Exact DMD';
-h(3).DisplayName = 'Duke DMD';
-h(4).DisplayName = 'KDFT';
+x = x.';
+
+h = plot(x,U(:,1),'LineWidth',3 );
+h.DisplayName = 'Data';
+hold all;
+
+plotMode( x, Amp_u1(1)*Phi_u1(:,1), 'Exact DMD' );
+plotMode( x, Amp_u2(1)*Phi_u2(:,1), 'Duke DMD' );
+plotMode( x, Amp_u3(1)*Phi_u3(:,1), 'KDFT' );
+
 legend('Location','Best');
 
 disp('Exact DMD:')
@@ -108,3 +106,18 @@ lambda_u2(1:Nmd)
 disp('KDFT:')
 Amp_u3(1:Nmd).'
 lambda_u3(1:Nmd)
+
+end
+
+function h = plotMode( x, z, name )
+%PLOTMODE Plot the complex mode.
+
+  validateattributes(x, {'numeric'},{'column','finite','nonnan'});
+  validateattributes(z, {'numeric'},{'column','finite',...
+                      'nonnan','numel',numel(x)});
+
+  % multiply by 2 to compensate for the conjugate mode
+  h = plot( x, 2*real(z) );
+  h.DisplayName = name;
+
+end
