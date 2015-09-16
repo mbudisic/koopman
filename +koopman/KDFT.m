@@ -1,8 +1,8 @@
-function [lambda, Modes] = KDFT(Snapshots, dt)
+function [lambdas, Modes, Amps] = KDFT(Snapshots, dt)
 %KDFT Compute Koopman modes using Discrete Fourier Transform (FFT), as used
 %by Mezic group at UC Santa Barbara.
 %
-% [lambda, Modes] = KDFT( Snapshots, dt )
+% [lambdas, Modes, Amps] = KDFT( Snapshots, dt )
 %    Compute Koopman modes of data in Snapshots matrix. Columns of Snapshots are
 %    measurements taken dt apart.
 %
@@ -10,15 +10,19 @@ function [lambda, Modes] = KDFT(Snapshots, dt)
 %    matrix, and then sorting those frequencies that give contribution to a
 %    large number of observables.
 %
-%    lambda -- list of complex Koopman frequencies, real part is the
+%    lambdas -- list of complex Koopman frequencies, real part is the
 %    decay rate, imaginary part (angular) frequency.
-%    Modes  -- each column of the matrix is a Koopman mode, corresponding
-%    to the lambda at the same index.
+%    Modes  -- each L2-normalized column of the matrix is a Koopman mode, corresponding
+%    to the lambdas at the same index.
+%    Amps   -- optimal L2 amplitudes used to sort the modes in descending
+%    order
 %
-%    lambda and Modes are sorted by l2-norm of columns of Modes, in
-%    descending order.
+% The function returns both conjugate pairs of the modes and their frequencies.
+% See also DMD_DUKE, DMD, L2OPTIMALMODEAMPLITUDES
 
 % Copyright 2015 under BSD license (see LICENSE file).
+
+import koopman.*
 
 % number of snapshots
 N = size(Snapshots, 2);
@@ -27,16 +31,21 @@ N = size(Snapshots, 2);
 Fs = 1/dt;
 
 % Evaluate FFT and rescale it appropriately
-F = fft( Snapshots, [], 2 );
+F = fft( Snapshots, N, 2 );
 Np = size(F,2);
 F = F/Np;
 
-% use single-sided FFT
-Modes = F(:,1:(floor(Np/2)+1));
-Modes(:, 2:end-1) = 2*Modes(:, 2:end-1);
 
-% Frequencies at which modes are obtained
-lambda = complex(0, 2*pi*Fs*(0:(Np/2))/Np).';
+endIdx = (Np-1)/2; % maximum mode index
+validateattributes(endIdx,{'numeric'},{'positive','integer'});
+assert( size(F,2) == (endIdx*2+1), 'Mode index incorrectly computed');
 
-% sort modes
-[lambda, Modes] = sortmodes( lambda, Modes );
+% use double-sided FFT
+idx = [0:endIdx, -endIdx:-1];
+lambdas = complex(0, 2*pi*Fs*(idx/Np)).';
+Modes = F;
+
+%%
+% Compute optimal L2 reconstruction amplitudes
+% and sort modes according to their modulus
+[~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
