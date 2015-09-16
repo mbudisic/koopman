@@ -1,5 +1,5 @@
-function DemoKoopmanModes(addNoise)
-%DEMOKOOPMANMODES Demonstrate Koopman mode calculation.
+function CompFun = DemoKoopmanModes(addNoise)
+%%DEMOKOOPMANMODES Demonstrate Koopman mode calculation.
 %
 % This function omputes Koopman modes using several different techniques
 % (exact DMD, Duke DMD, and Koopman DFT).
@@ -28,10 +28,13 @@ function DemoKoopmanModes(addNoise)
 
 import koopman.*
 
-%% Generate Duke Synthetic Data set
-[U, t, x] = DukeSynthetic('TimeComplexFrequency', 20i, ...
-                          'SpaceComplexFrequency', 1+5i);
+% plot Nmd most dominant modes
+Nmd = 10;
 
+%% Generate Duke Synthetic Data set
+TCF = -0.1 + 21i;
+[U, t, x] = DukeSynthetic('TimeComplexFrequency', TCF, ...
+                          'SpaceComplexFrequency', 1+5i);
 % compute time and space step sizes
 dt = t(2)-t(1);
 dx = x(2)-x(1);
@@ -42,15 +45,14 @@ if nargin == 1 && ~addNoise
   disp('Noiseless')
 else
   disp('Adding noise')
-  NSR = 5/100; % noise to signal ratio
+  NSR = 10/100; % noise to signal ratio
   Noise = (2*rand(size(U)) - 1) * NSR;
   U = U .* (1 + Noise);
 end
 
 %%
 % Plot the time-space false color plot of data
-%figure('Name','Synthetic data set (Duke)');
-subplot(2,2,1);
+subplot(2,1,1);
 pcolor( t, x, U );
 xlabel('Time t');
 ylabel('Space x');
@@ -59,7 +61,9 @@ title('Synthetic Duke data set')
 c = colorbar('South');
 c.Position(4) = c.Position(4)/4;
 
-%figure('Name','Space/time FFT')
+%%
+% Compute space and time power spectra for the last snapshot in the data
+% set and label peaks in the spectrum
 subplot(2,2,3)
 getPowerSpectrum( U(end,:), dt );
 title('Time FFT')
@@ -68,61 +72,122 @@ subplot(2,2,4)
 getPowerSpectrum( U(:,end), dx );
 title('Space FFT')
 
-%figure('Name','Modes')
-subplot(2,2,2)
-Nmd = 5;
+%% Compute Koopman Modes
 
+%%
+% Remove mean from data
 [U, Mean] = removemean(U);
-
 fprintf('Removed data mean (ranged in interval [%f, %f])\n', ...
         min(Mean), max(Mean) );
 
-tic
-[lambda_u1, Phi_u1, Amp_u1] = DMD( U, dt, true );
-toc
-tic
-[lambda_u2, Phi_u2, Amp_u2] = DMD_Duke( U, dt, 20 );
-toc
-tic
-[lambda_u3, Phi_u3, Amp_u3] = KDFT( U, dt  );
-toc
+%
+% CompFun stores calls of functions to compute Koopman modes
+CompFun = struct([]);
 
-x = x.';
+CompFun(end+1).Eval = @(Data)DMD( Data, dt, 20 );
+CompFun(end).Name = 'Exact DMD (de-biased)';
 
-h = plot(x,U(:,1),'LineWidth',3 );
+CompFun(end+1).Eval = @(Data)DMD_Duke( Data, dt, 20 );
+CompFun(end).Name = 'Duke DMD (de-biased)';
+
+CompFun(end+1).Eval = @(Data)KDFT( Data, dt);
+CompFun(end).Name = 'Koopman DFT';
+
+%%
+% Compute modes
+for k = 1:numel(CompFun)
+  fprintf('Calculating %s.\n',CompFun(k).Name);
+  tic
+  [CompFun(k).Spectrum, ...
+   CompFun(k).Modes, ...
+   CompFun(k).Amplitudes] = CompFun(k).Eval(U);
+  toc
+end
+
+%% Plotting
+
+figure('Name', 'Results');
+
+%%
+% Plot mode shapes
+subplot(2,2,1);
+
+% Plot data
+x = x(:);
+step = numel(t);
+step = 1;
+truth = U(:,step);
+h = plot(x,truth,'k-','LineWidth',2 );
 h.DisplayName = 'Data';
 hold all;
 axis manual; % fix axis according to data
 
-plotMode( x, Amp_u1(1)*Phi_u1(:,1), 'Exact DMD' );
-plotMode( x, Amp_u2(1)*Phi_u2(:,1), 'Duke DMD' );
-plotMode( x, Amp_u3(1)*Phi_u3(:,1), 'KDFT' );
+% Plot modes
+for k = 1:numel(CompFun)
+  fprintf('Plotting %s.\n',CompFun(k).Name);
 
-legend('Location','Best');
+  % multiply by 2 to compensate for the conjugate mode
+  y = 2*real(...
+      CompFun(k).Amplitudes(1)*...
+      CompFun(k).Modes(:,1)*...
+      exp(CompFun(k).Spectrum(1)*t(step))...
+      );
+  d = y - truth;
 
-disp('Exact DMD:')
-Amp_u1(1:Nmd).'
-lambda_u1(1:Nmd)
+  subplot(2,2,1);
+  h = plot( x, y, '.-', 'LineWidth',1);
+  h.DisplayName = CompFun(k).Name;
 
-disp('Duke DMD:')
-Amp_u2(1:Nmd).'
-lambda_u2(1:Nmd)
-
-disp('KDFT:')
-Amp_u3(1:Nmd).'
-lambda_u3(1:Nmd)
+  subplot(2,2,3);
+  h = plot( x, d, '.-', 'LineWidth',1);
+  h.DisplayName = CompFun(k).Name;
+  hold all
 
 end
 
-function h = plotMode( x, z, name )
-%PLOTMODE Plot the complex mode.
+subplot(2,2,1);
+title({'Mode shapes compared to data',...
+       sprintf('in time step %d/%d', step, numel(t))});
+legend('Location','Best');
 
-  validateattributes(x, {'numeric'},{'column','finite','nonnan'});
-  validateattributes(z, {'numeric'},{'column','finite',...
-                      'nonnan','numel',numel(x)});
+subplot(2,2,3);
+title({'Difference betweend data and mode shape',...
+       sprintf('in time step %d/%d', step, numel(t))});
+legend('Location','Best');
 
-  % multiply by 2 to compensate for the conjugate mode
-  h = plot( x, 2*real(z) );
-  h.DisplayName = name;
+hold off;
+
+%%
+% Plot spectra
+subplot(1,2,2);
+h = gobjects(numel(CompFun),1);
+markers = {'o','^','v','s','d'};
+for k = 1:numel(CompFun)
+  MySpectrum = CompFun(k).Spectrum(1:Nmd);
+  MyAmps = abs(CompFun(k).Amplitudes(1:Nmd));
+
+  Xs = real(MySpectrum);
+  Ys = imag(MySpectrum);
+  Ss = MyAmps*25/max(MyAmps);
+
+  h(k) = scatter( Xs, Ys, Ss );
+
+  h(k).DisplayName = CompFun(k).Name;
+
+  %fix Matlab bug that assigns last color to all previously plotted scatter
+  %points
+  h(k).MarkerFaceColor = h(k).CData(1,:);
+  h(k).MarkerEdgeColor = 'none';
+  h(k).Marker = markers{k};
+  hold all;
+end
+axis( [ [-2,2]*max([abs(real(TCF)),.1]),...
+        [-2,2]*abs(imag(TCF)) ] )
+hold off;
+legend('Location','Best');
+xlabel('Decay Rate');
+ylabel('Frequency');
+title({sprintf('Dominant (%d) Koopman evalues',Nmd),...
+       '(size is mode amplitude)'});
 
 end
