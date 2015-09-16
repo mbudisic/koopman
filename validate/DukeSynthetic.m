@@ -1,4 +1,4 @@
-function [U, t, x, peakTimeFFT, peakSpaceFFT] = DukeSynthetic( varargin )
+function [U, t, x] = DukeSynthetic( varargin )
 %%DUKESYNTHETIC Generate a synthetic 1-d linear instability field
 % from D. Duke, J. Soria, and D. Honnery, “An error analysis of the dynamic
 % mode decomposition,” Exp. Fluids 52, 529–542 (2012).
@@ -25,8 +25,6 @@ function [U, t, x, peakTimeFFT, peakSpaceFFT] = DukeSynthetic( varargin )
 %        time trace of the mode evolution
 %   t -- time axis
 %   x -- space axis
-%   peakTimeFFT -- expected peak of the time FFT
-%   peakSpaceFFT -- expected peak of the space FFT
 %
 % If no output arguments are requested, a false-color plot of the data is
 % produced.
@@ -71,16 +69,6 @@ Gamma = real(p.SpaceComplexFrequency);
 % Mode function
 Mode = @(t,x)real( exp( p.TimeComplexFrequency*t ) .* ...
                    exp( p.SpaceComplexFrequency*x ) );
-
-%%
-% Compute theoretical peaks of the power spectrum
-ZetaT = sqrt( Sigma^2/(Omega^2 + Sigma^2) );
-ZetaX = sqrt( Gamma^2/(Kappa^2 + Gamma^2) );
-peakTimeFFT = Omega/sqrt(1-ZetaT.^2);
-peakSpaceFFT = Kappa/sqrt(1-ZetaX.^2);
-
-fprintf('Time Peak: %f\n',peakTimeFFT)
-fprintf('Space Peak: %f\n',peakSpaceFFT)
 
 %%
 % Evaluate the mode on the time-space grid
