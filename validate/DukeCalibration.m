@@ -1,4 +1,4 @@
-function DukeCalibration(isNoisy)
+function DukeCalibration(isNoisy )
 %DUKECALIBRATION Compute Koopman modes using several techniques on
 %synthetic data.
 %
@@ -22,44 +22,48 @@ function DukeCalibration(isNoisy)
 
 import koopman.*
 
-%%
-% Generate Duke Synthetic Data set
+%% Generate Duke Synthetic Data set
 [U, t, x] = DukeSynthetic('TimeComplexFrequency', 20i, ...
                           'SpaceComplexFrequency', 1+5i);
 
-dt = t(2)-t(1); % sample time
-dx = x(2)-x(1); % sample step
+% compute time and space step sizes
+dt = t(2)-t(1);
+dx = x(2)-x(1);
 
-% Add multiplicative noise
+%%
+% If requested, add multiplicative noise
 if nargin == 1 && ~isNoisy
   disp('Noiseless')
 else
   disp('Adding noise')
-  NSR = 5/100; % noise to signal ratio
+  NSR = 10/100; % noise to signal ratio
   Noise = (2*rand(size(U)) - 1) * NSR;
   U = U .* (1 + Noise);
 end
 
-figure
+%%
+% Plot the time-space false color plot of data
+%figure('Name','Synthetic data set (Duke)');
+subplot(2,2,1);
 pcolor( t, x, U );
 xlabel('Time t');
 ylabel('Space x');
 shading interp
-title('Synthetic Duke data')
-colorbar
+title('Synthetic Duke data set')
+c = colorbar('South');
+c.Position(4) = c.Position(4)/4;
 
-figure
-subplot(1,2,1)
-tPeak = getspectrum( U(end,:), dt );
-xPeak = getspectrum( U(:,end), dx );
-
+%figure('Name','Space/time FFT')
+subplot(2,2,3)
 getspectrum( U(end,:), dt );
+title('Time FFT')
 
-fprintf('FFT-detected time ang. freq: %f\n', tPeak(1,1));
-fprintf('FFT-detected space ang. freq: %f\n', xPeak(1,1));
+subplot(2,2,4)
+getspectrum( U(:,end), dx );
+title('Space FFT')
 
-Shape = U(:,end);
-Shape = Shape/max(abs(Shape));
+%figure('Name','Modes')
+subplot(2,2,2)
 Nmd = 5;
 
 [U, Mean] = removemean(U);
@@ -77,7 +81,6 @@ tic
 [lambda_u3, Phi_u3, Amp_u3] = KDFT( U, dt  );
 toc
 
-subplot(1,2,2);
 x = x.';
 
 h = plot(x,U(:,1),'LineWidth',3 );

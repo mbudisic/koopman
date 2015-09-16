@@ -1,28 +1,42 @@
-function [peak, Pyy] = getspectrum( y, dt )
+function [lsor, psor, Pyy] = getspectrum( y, dt )
 
+% Sampling frequency
 Fs = 1/dt;
+
+% Compute DFT
 NFFT = length(y);
 Y = fft(y,NFFT);
+
+% Compute power spectrum (norm of DFT)
+Pyy = 10*log10( (abs(Y).^2)/NFFT );
+
+% Truncate to single-sided DFT
+Pyy = Pyy(1:round(NFFT/2));
+
+% Compute physical frequency vector
 F = ((0:1/NFFT:1-1/NFFT)*Fs);
-Pyy = Y.*conj(Y)/NFFT;
+% Convert to angular frequency
+F = F(1:round(NFFT/2));
 Om = 2*pi*F;
 
-Pyy = Pyy(1:round(NFFT/2));
-Om = Om(1:round(NFFT/2));
+% convert to row-vectors
 Pyy = Pyy(:).';
 Om = Om(:).';
 
-[~,sel] = findpeaks(Pyy);
+%
+prominence = 5;
 
-sel = sel(:);
+% find peaks that are at least 10dB larger than neighbors
+[psor,lsor] = findpeaks(Pyy,Om,'SortStr','descend','NPeaks',5, ...
+                        'MinPeakProminence',prominence);
 
-if nargout < 1
-  semilogy(Om,Pyy,'x-')
-  hold on
-  semilogy( Om(sel), Pyy(sel), 'ro' );
-  hold off;
-  title('Power spectral density')
-  xlabel('Angular frequency')
-end
+% Plot and label
+findpeaks(Pyy,Om,'SortStr','descend','NPeaks',5,'MinPeakProminence',prominence)
 
-peak = sortrows( [Om(sel),Pyy(sel)], [-2,1] );
+labels = arrayfun(@(loc)sprintf('%.1f',loc), ...
+                  lsor,'UniformOutput',false);
+
+text(lsor+.02,psor,labels,'FontSize',7);
+
+ylabel('dB')
+xlabel('Angular frequency')
