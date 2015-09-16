@@ -31,7 +31,7 @@ function [U, t, x, peakTimeFFT, peakSpaceFFT] = DukeSynthetic( varargin )
 % If no output arguments are requested, a false-color plot of the data is
 % produced.
 %
-% See also DUKECALIBRATION
+% See also DEMOKOOPMANMODES
 
 % Copyright 2015 under BSD license (see LICENSE file).
 

@@ -1,22 +1,28 @@
-function DukeCalibration(isNoisy )
-%DUKECALIBRATION Compute Koopman modes using several techniques on
-%synthetic data.
+function DemoKoopmanModes(addNoise)
+%DEMOKOOPMANMODES Demonstrate Koopman mode calculation.
 %
-% This function implements the data set similar to
+% This function omputes Koopman modes using several different techniques
+% (exact DMD, Duke DMD, and Koopman DFT).
+% from a synthetic data set, similar to the one used in
 % Duke, Daniel, Julio Soria, and Damon Honnery. 2012. “An Error Analysis of
 % the Dynamic Mode Decomposition.” Experiments in Fluids 52 (2):
 % 529–42. doi:10.1007/s00348-011-1235-7.
+% The function can be interpreted as a "sanity check" for implementations
+% of Koopman mode decompositions.
+%
+% The data set is a complex exponential in one spatial and temporal
+% dimension, with angular time-frequency 20, and angular space-frequency 5,
+% and growth rate 1.
+%
+% DEMOKOOPMANMODES Compute Koopman modes for a data set containing an
+% exponential spatial and temporal shape, with added multplicative noise
+% (Signal-Noise-Ratio = 20).
+%
+% DEMOKOOPMANMODES(FALSE) Compute Koopman modes for a data set containing an
+% exponential spatial and temporal shape, with no noise added.
+%
 
-% DUKECALIBRATION(ISNOISY)
-% Data set contains an exponential spatial and temporal shape, with added
-% noise (SNR=100) (unless FALSE) is passed as the argument
-%
-% It then computes Koopman modes using exact, Duke, and DFT algorithms and
-% plots them.
-%
-% This function should be interpreted as a "sanity" check for Koopman mode
-% techniques.
-%
+% See DUKESYNTHETIC
 
 % Copyright 2015 under BSD license (see LICENSE file).
 
@@ -32,11 +38,11 @@ dx = x(2)-x(1);
 
 %%
 % If requested, add multiplicative noise
-if nargin == 1 && ~isNoisy
+if nargin == 1 && ~addNoise
   disp('Noiseless')
 else
   disp('Adding noise')
-  NSR = 10/100; % noise to signal ratio
+  NSR = 5/100; % noise to signal ratio
   Noise = (2*rand(size(U)) - 1) * NSR;
   U = U .* (1 + Noise);
 end

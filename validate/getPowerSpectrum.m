@@ -43,15 +43,17 @@ Omega = Omega(:).';
 [peakPower,peakOmega] = findpeaks(pSpec,Omega,'SortStr','descend','NPeaks',5, ...
                         'MinPeakProminence',minProminence);
 
+% Plot (using findpeaks internal plotting) and label peaks if there are no
+% arguments requested
 if nargout == 0
-  % Plot and label
+
   findpeaks(pSpec,Omega,'SortStr','descend','NPeaks',5,'MinPeakProminence',minProminence)
-
-  labels = arrayfun(@(loc)sprintf('%.1f',loc), ...
-                    peakOmega,'UniformOutput',false);
-
-  text(peakOmega+.02,peakPower,labels,'FontSize',7);
-
   ylabel('dB')
   xlabel('Angular frequency')
+
+  % place labels containing frequencies
+  labels = arrayfun(@(loc)sprintf('%.1f',loc), ...
+                    peakOmega,'UniformOutput',false);
+  text(peakOmega+.02,peakPower,labels,'FontSize',7);
+
 end
