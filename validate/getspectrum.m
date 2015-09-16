@@ -1,4 +1,20 @@
-function [lsor, psor, Pyy] = getspectrum( y, dt )
+function [peakOmega, peakPower, pSpec] = getspectrum( y, dt )
+%GETSPECTRUM Compute log-power spectrum of signal y and compute peaks.
+%
+% [PEAKOMEGA, PEAKPOWER, PSPEC] = GETSPECTRUM(Y,DT)
+%  Compute the single-sided power spectrum of the signal Y, sampled at
+%  uniform rate DT.
+%  PEAKOMEGA - ang. frequencies of the most prominent peaks
+%  PEAKPOWER - power at the most prominent peaks
+%  PSPEC     - the entire power spectrum
+%  OMEGA     - angular frequencies corresponding to the power spectrum
+%
+%  If no outputs are requested, the power spectrum is plotted and labeled.
+
+% Copyright 2015 under BSD license (see LICENSE file).
+
+% minimum prominence at which peak is detected (height to neighbor, in dB)
+minProminence = 5;
 
 % Sampling frequency
 Fs = 1/dt;
@@ -8,35 +24,34 @@ NFFT = length(y);
 Y = fft(y,NFFT);
 
 % Compute power spectrum (norm of DFT)
-Pyy = 10*log10( (abs(Y).^2)/NFFT );
+pSpec = 10*log10( (abs(Y).^2)/NFFT );
 
 % Truncate to single-sided DFT
-Pyy = Pyy(1:round(NFFT/2));
+pSpec = pSpec(1:round(NFFT/2));
 
 % Compute physical frequency vector
 F = ((0:1/NFFT:1-1/NFFT)*Fs);
 % Convert to angular frequency
 F = F(1:round(NFFT/2));
-Om = 2*pi*F;
+Omega = 2*pi*F;
 
 % convert to row-vectors
-Pyy = Pyy(:).';
-Om = Om(:).';
-
-%
-prominence = 5;
+pSpec = pSpec(:).';
+Omega = Omega(:).';
 
 % find peaks that are at least 10dB larger than neighbors
-[psor,lsor] = findpeaks(Pyy,Om,'SortStr','descend','NPeaks',5, ...
-                        'MinPeakProminence',prominence);
+[peakPower,peakOmega] = findpeaks(pSpec,Omega,'SortStr','descend','NPeaks',5, ...
+                        'MinPeakMinProminence',minProminence);
 
-% Plot and label
-findpeaks(Pyy,Om,'SortStr','descend','NPeaks',5,'MinPeakProminence',prominence)
+if nargout == 0
+  % Plot and label
+  findpeaks(pSpec,Omega,'SortStr','descend','NPeaks',5,'MinPeakMinProminence',minProminence)
 
-labels = arrayfun(@(loc)sprintf('%.1f',loc), ...
-                  lsor,'UniformOutput',false);
+  labels = arrayfun(@(loc)sprintf('%.1f',loc), ...
+                    peakOmega,'UniformOutput',false);
 
-text(lsor+.02,psor,labels,'FontSize',7);
+  text(peakOmega+.02,peakPower,labels,'FontSize',7);
 
-ylabel('dB')
-xlabel('Angular frequency')
+  ylabel('dB')
+  xlabel('Angular frequency')
+end
