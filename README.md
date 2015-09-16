@@ -33,9 +33,11 @@ A demo (and validation) for the toolbox is located in koopman/validate folder. O
 Demo implements an exponentially growing mode used by Duke et al. Spatial shape of the data set is fixed in demo, while the time behavior is set via arguments to the demo function.
 
 Here is an example of the demo run for decay rate -0.1 and angular frequency 21:
+
 ![Data for -0.1+21i set](img/data-01_21i.png "Visualization of the input for time frequency -0.1+i21")
 ![Results for -0.1+21i set](img/results-01_21i.png ""Visualization of the output for time frequency -0.1+i21"")
 
 Here is an example of the demo run for decay rate 0 and angular frequency 20:
+
 ![Data for 0+20i set](img/data-0_20i.png "Visualization of the input for time frequency i20")
 ![Results for 0+20i set](img/results-0_20i.png "Visualization of the output for time frequency i20")
