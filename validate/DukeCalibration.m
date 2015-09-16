@@ -23,12 +23,9 @@ function DukeCalibration(isNoisy)
 import koopman.*
 
 %%
-% Set up the domains
-xPoints = 201; % points on space domain
-tPoints = 501; % points on time domain
-
 % Generate Duke Synthetic Data set
-[U, t, x] = DukeSynthetic(xPoints, tPoints, 20i, 1+5i);
+[U, t, x] = DukeSynthetic('TimeComplexFrequency', 20i, ...
+                          'SpaceComplexFrequency', 1+5i);
 
 dt = t(2)-t(1); % sample time
 dx = x(2)-x(1); % sample step
@@ -42,7 +39,6 @@ else
   Noise = (2*rand(size(U)) - 1) * NSR;
   U = U .* (1 + Noise);
 end
-
 
 figure
 pcolor( t, x, U );
@@ -68,8 +64,11 @@ Nmd = 5;
 
 [U, Mean] = removemean(U);
 
+fprintf('Removed data mean (ranged in interval [%f, %f])\n', ...
+        min(Mean), max(Mean) );
+
 tic
-[lambda_u1, Phi_u1, Amp_u1] = DMD( U, dt, 20 );
+[lambda_u1, Phi_u1, Amp_u1] = DMD( U, dt, true );
 toc
 tic
 [lambda_u2, Phi_u2, Amp_u2] = DMD_Duke( U, dt, 20 );
@@ -78,16 +77,13 @@ tic
 [lambda_u3, Phi_u3, Amp_u3] = KDFT( U, dt  );
 toc
 
-normalize = @(v)v/max(abs(v));
-
-
-
 subplot(1,2,2);
 x = x.';
 
 h = plot(x,U(:,1),'LineWidth',3 );
 h.DisplayName = 'Data';
 hold all;
+axis manual; % fix axis according to data
 
 plotMode( x, Amp_u1(1)*Phi_u1(:,1), 'Exact DMD' );
 plotMode( x, Amp_u2(1)*Phi_u2(:,1), 'Duke DMD' );
