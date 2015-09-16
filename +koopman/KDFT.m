@@ -31,7 +31,7 @@ N = size(Snapshots, 2);
 Fs = 1/dt;
 
 % Evaluate FFT and rescale it appropriately
-F = fft( Snapshots, [], 2 );
+F = fft( Snapshots, N, 2 );
 Np = size(F,2);
 F = F/Np;
 
@@ -40,18 +40,12 @@ endIdx = (Np-1)/2; % maximum mode index
 validateattributes(endIdx,{'numeric'},{'positive','integer'});
 assert( size(F,2) == (endIdx*2+1), 'Mode index incorrectly computed');
 
-
 % use double-sided FFT
 idx = [0:endIdx, -endIdx:-1];
 lambdas = complex(0, 2*pi*Fs*(idx/Np)).';
 Modes = F;
 
-% % use single-sided FFT
-% idx = [0:endIdx];
-% lambdas = complex(0, 2*pi*Fs*(idx/Np)).';
-% Modes = F(:,idx+1);
-
-
 %%
-% Sort modes according to their optimal L2 contributions
+% Compute optimal L2 reconstruction amplitudes
+% and sort modes according to their modulus
 [~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
