@@ -1,4 +1,4 @@
-function CompFun = DemoKoopmanModes(addNoise)
+function CompFun = DemoKoopmanModes(TCF, noNoise)
 %%DEMOKOOPMANMODES Demonstrate Koopman mode calculation.
 %
 % This function omputes Koopman modes using several different techniques
@@ -18,9 +18,14 @@ function CompFun = DemoKoopmanModes(addNoise)
 % exponential spatial and temporal shape, with added multplicative noise
 % (Signal-Noise-Ratio = 20).
 %
-% DEMOKOOPMANMODES(FALSE) Compute Koopman modes for a data set containing an
-% exponential spatial and temporal shape, with no noise added.
+% DEMOKOOPMANMODES(TCF) Compute Koopman modes for a data set containing an
+% exponential spatial and temporal shape, with explicit complex temporal
+% frequency given.
 %
+% DEMOKOOPMANMODES(TCF, NONOISE) Compute Koopman modes for a data set containing an
+% exponential spatial and temporal shape, with explicit complex temporal
+% frequency given. Do not add noise if NONOISE = true. Default TCF is set
+% by TCF=[]
 
 % See DUKESYNTHETIC
 
@@ -32,7 +37,14 @@ import koopman.*
 Nmd = 10;
 
 %% Generate Duke Synthetic Data set
-TCF = -0.1 + 21i;
+if nargin < 1 || isempty(TCF)
+  TCF = -0.1 + 21i;
+else
+  validateattributes(TCF,{'numeric'},{'scalar','finite','nonnan'})
+end
+
+fprintf('Complex time frequency: %.f  + i %.2f\n', real(TCF), imag(TCF) );
+
 [U, t, x] = DukeSynthetic('TimeComplexFrequency', TCF, ...
                           'SpaceComplexFrequency', 1+5i);
 % compute time and space step sizes
@@ -41,7 +53,7 @@ dx = x(2)-x(1);
 
 %%
 % If requested, add multiplicative noise
-if nargin == 1 && ~addNoise
+if nargin > 1 && noNoise
   disp('Noiseless')
 else
   disp('Adding noise')
