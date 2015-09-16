@@ -1,6 +1,5 @@
 function [lambdas, Modes, Amps] = KDFT(Snapshots, dt)
-%KDFT Compute Koopman modes using Discrete Fourier Transform (FFT), as used
-%by Mezic group at UC Santa Barbara.
+%KDFT Compute Koopman modes using Discrete Fourier Transform (FFT).
 %
 % [lambdas, Modes, Amps] = KDFT( Snapshots, dt )
 %    Compute Koopman modes of data in Snapshots matrix. Columns of Snapshots are
@@ -17,7 +16,12 @@ function [lambdas, Modes, Amps] = KDFT(Snapshots, dt)
 %    Amps   -- optimal L2 amplitudes used to sort the modes in descending
 %    order
 %
-% The function returns both conjugate pairs of the modes and their frequencies.
+% The function returns both conjugate pairs of the modes and their
+% frequencies.
+%
+% Note: this method currently correctly operates only on non-transient
+% data.
+%
 % See also DMD_DUKE, DMD, L2OPTIMALMODEAMPLITUDES
 
 % Copyright 2015 under BSD license (see LICENSE file).
