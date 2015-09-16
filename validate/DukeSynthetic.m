@@ -21,12 +21,12 @@ function [U, t, x, peakTimeFFT, peakSpaceFFT] = DukeSynthetic( varargin )
 %   SpaceComplexFrequency -- complex space frequency (default: 0.5 + 5i)
 %
 % The outputs are:
-% U -- data matrix, each row corresponds to a time-slice, each column to a
-%      time trace of the mode evolution
-% t -- time axis
-% x -- space axis
-% peakTimeFFT -- expected peak of the time FFT
-% peakSpaceFFT -- expected peak of the space FFT
+%   U -- data matrix, each row corresponds to a time-slice, each column to a
+%        time trace of the mode evolution
+%   t -- time axis
+%   x -- space axis
+%   peakTimeFFT -- expected peak of the time FFT
+%   peakSpaceFFT -- expected peak of the space FFT
 %
 % If no output arguments are requested, a false-color plot of the data is
 % produced.
