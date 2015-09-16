@@ -1,7 +1,7 @@
-function [peakOmega, peakPower, pSpec] = getspectrum( y, dt )
+function [peakOmega, peakPower, pSpec] = getPowerSpectrum( y, dt )
 %GETSPECTRUM Compute log-power spectrum of signal y and compute peaks.
 %
-% [PEAKOMEGA, PEAKPOWER, PSPEC] = GETSPECTRUM(Y,DT)
+% [PEAKOMEGA, PEAKPOWER, PSPEC] = GETPOWERSPECTRUM(Y,DT)
 %  Compute the single-sided power spectrum of the signal Y, sampled at
 %  uniform rate DT.
 %  PEAKOMEGA - ang. frequencies of the most prominent peaks
@@ -41,11 +41,11 @@ Omega = Omega(:).';
 
 % find peaks that are at least 10dB larger than neighbors
 [peakPower,peakOmega] = findpeaks(pSpec,Omega,'SortStr','descend','NPeaks',5, ...
-                        'MinPeakMinProminence',minProminence);
+                        'MinPeakProminence',minProminence);
 
 if nargout == 0
   % Plot and label
-  findpeaks(pSpec,Omega,'SortStr','descend','NPeaks',5,'MinPeakMinProminence',minProminence)
+  findpeaks(pSpec,Omega,'SortStr','descend','NPeaks',5,'MinPeakProminence',minProminence)
 
   labels = arrayfun(@(loc)sprintf('%.1f',loc), ...
                     peakOmega,'UniformOutput',false);

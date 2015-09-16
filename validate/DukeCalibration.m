@@ -55,11 +55,11 @@ c.Position(4) = c.Position(4)/4;
 
 %figure('Name','Space/time FFT')
 subplot(2,2,3)
-getspectrum( U(end,:), dt );
+getPowerSpectrum( U(end,:), dt );
 title('Time FFT')
 
 subplot(2,2,4)
-getspectrum( U(:,end), dx );
+getPowerSpectrum( U(:,end), dx );
 title('Space FFT')
 
 %figure('Name','Modes')
