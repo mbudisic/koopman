@@ -25,7 +25,7 @@ should list the contents of the toolbox.
 
 ## Basic syntax
 
-Currently, the toolbox implements two algorithms based on Dynamic Mode Decomposition, and one algorithm based on Discrete Fourier Transform. All functions have similar syntax.
+Currently, the toolbox implements two algorithms based on Dynamic Mode Decomposition ([Tu et al.][Tu2014]), and one algorithm based on Discrete Fourier Transform. All functions have similar syntax.
 
 Let's suppose that a ```Snapshots``` matrix holds a multidimensional data sampled from a process, with each column corresponding to a snapshot at a single time instance, and snapshots taken at a time resolution of ```dt```.
 
@@ -71,3 +71,7 @@ Here is an example of the demo run for decay rate 0 and angular frequency 20:
 ### Output for steady oscillation of angular frequency 20:
 
 ![Results for 0+20i set](img/results-0_20i.png "Visualization of the output for time frequency i20")
+
+# References
+
+[Tu2014]: "Tu, Jonathan H., Clarence W. Rowley, Dirk M. Luchtenburg, Steven L. Brunton, and J. Nathan Kutz. 2013. “On Dynamic Mode Decomposition: Theory and Applications.” Journa of Computational Dynamics, doi:10.3934/jcd.2014.1.391."
