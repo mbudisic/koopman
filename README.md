@@ -54,19 +54,20 @@ Demo implements an exponentially growing mode used by Duke et al. Spatial shape 
 
 ## Examples
 
-### Visualization of the input for time frequency -0.1+i21:
+### Input at decay rate -0.1 and angular frequency 21:
 
 ![Data for -0.1+21i set](img/data-01_21i.png "Visualization of the input for time frequency -0.1+i21")
 
-### Visualization of the output for time frequency -0.1+i21
+### Output for input decay rate -0.1 and angular frequency 21:
 
 ![Results for -0.1+21i set](img/results-01_21i.png "Visualization of the output for time frequency -0.1+i21")
 
 Here is an example of the demo run for decay rate 0 and angular frequency 20:
 
-### Visualization of the input for time frequency i20
+### Input at steady oscillation of angular frequency 20:
 
 ![Data for 0+20i set](img/data-0_20i.png "Visualization of the input for time frequency i20")
 
-### Visualization of the output for time frequency i20
+### Output for steady oscillation of angular frequency 20:
+
 ![Results for 0+20i set](img/results-0_20i.png "Visualization of the output for time frequency i20")
