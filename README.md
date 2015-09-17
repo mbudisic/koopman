@@ -7,7 +7,6 @@ The goal of this toolbox is to collect several common Koopman mode decomposition
 
 The code is licensed under a BSD3 license, found in the accompanying LICENSE file.
 
-For the content of the package, please consult +koopman/Contents.m.
 
 # Installation
 
@@ -16,10 +15,11 @@ Place the toolbox on the drive, e.g., to ~/MatlabToolbox/koopman, and add its to
     >>> addpath("~/MatlabToolbox/koopman")
     >>> savepath
 
-Then functions from the toolbox can be accessed via namespace "koopman", e.g.,
+Then functions from the toolbox can be accessed via namespace "koopman". Executing
 
-    >> koopman.DMD
+    >> doc koopman
 
+should list the contents of the toolbox.
 
 # Use
 
