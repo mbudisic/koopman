@@ -6,6 +6,9 @@ function [lambdas, Modes, Amps] = DMD(Snapshots, dt, db)
 % Mode Decomposition: Theory and Applications.” Journa of Computational
 % Dynamics, doi:10.3934/jcd.2014.1.391.
 %
+% The algorithm uses the SVD decomposition of the input snapshot matrix to
+% construct the DMD matrix.
+%
 % [lambdas, Modes, Amps] = DMD( Snapshots, dt )
 %    Compute DMD of data in Snapshots matrix. Columns of Snapshots are
 %    measurements taken dt apart.

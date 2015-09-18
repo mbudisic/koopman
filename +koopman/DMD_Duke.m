@@ -5,6 +5,9 @@ function [lambdas, Modes, Amps] = DMD_Duke(Snapshots, dt, varargin)
 % Honnery. 2012. “An Error Analysis of the Dynamic Mode Decomposition.”
 % Experiments in Fluids 52 (2): 529–42. doi:10.1007/s00348-011-1235-7.
 %
+% The algorithm uses the QR decomposition of the input snapshot matrix to
+% construct the DMD matrix.
+%
 % [lambdas, Modes, Amps] = DMD_Duke( Snapshots, dt )
 %    Compute DMD of data in Snapshots matrix. Columns of Snapshots are
 %    measurements taken dt apart.
