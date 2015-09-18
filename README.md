@@ -47,7 +47,7 @@ Output variables are
 
 * ```Spectrum```, a vector of complex frequencies, where positive real parts indicate growing modes, negative decaying modes, and imaginary parts give oscillation frequencies
 * ```Modes```, matrix of spatial shapes, where complex-valued column corresponds to an element of ```Spectrum```,
-* ```Amplitudes```, a vector of complex amplitudes that minimize the L2 distance between the input data, and the reconstruction
+* ```Amplitudes```, a vector of complex amplitudes that minimize the L2 distance between the input data, and the reconstruction, due to [Jovanovic et al. 2014](#references)
 
 For further documentation, see help lines for individual functions in the koopman namespace.
 
