@@ -14,8 +14,9 @@ function [hout, hbout] = plotSpectrum( varargin )
 %
 % PLOTSPECTRUM( ..., NORMALIZE )
 %
-%    Sizes of markers are normalized so that the largest marker is of size
-%    25.
+%    If a positive number NORMALIZE is passed, sizes of markers are normalized
+%    so that the largest marker is of area NORMALIZE. If NORMALIZE = 0,
+%    normalization is not performed. (default: NORMALIZE = 100)
 %
 % HOUT = PLOTSPECTRUM(...)
 % [HOUT, HBOUT] = PLOTSPECTRUM(...)
@@ -29,7 +30,7 @@ function [hout, hbout] = plotSpectrum( varargin )
 parser = inputParser;
 parser.addRequired('spectrum', @isvector );
 parser.addOptional('amplitudes', [], @isvector );
-parser.addOptional('normalize', true, @(x)isscalar(x) && islogical(x) );
+parser.addOptional('normalize', 100, @(x)isscalar(x) && (x >= 0) );
 parser.parse( varargin{:} );
 
 % Extract decay rates/frequencies
@@ -46,8 +47,8 @@ if ~isempty(parser.Results.amplitudes)
 
   % determine sizes of markers using absolute value of amplitudes
   Sizes = abs(Amps);
-  if (parser.Results.normalize)
-    Sizes = Sizes/max(Sizes)*50;
+  if (parser.Results.normalize > 0)
+    Sizes = Sizes/max(Sizes)*parser.Results.normalize;
   end
   % minimum size has to be positive
   Sizes=1+Sizes;
@@ -66,9 +67,11 @@ else
   % otherwise color is automatically assigned using hsv scheme
   h = scatter( Rates, Freq, Sizes, Phases, 'filled' );
   colormap(hsv);
+  caxis([-1,1]);
   hb = colorbar('Location','South');
   hb.Position(4) = hb.Position(4)/4;
   hb.Label.String = 'Phase/\pi';
+  set(gca,'Color',repmat(0.5,[1,3]));
 end
 
 xlabel('Decay Rate');
