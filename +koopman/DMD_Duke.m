@@ -40,14 +40,19 @@ function [lambdas, Modes, Amps] = DMD_Duke(Snapshots, dt, varargin)
 
   [X, lambdas] = eigs(S, size(S,1)-2);
   lambdas = diag(lambdas);
-
-  %% Calculate modes
-  Modes = InputSnapshots * X;
   lambdas = log(lambdas);
+
   if nargin >= 2 && ~isempty(dt)
     lambdas = lambdas/dt;
   end
 
-  %%
-  % Sort modes according to their optimal L2 contributions
-  [~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
+  if nargout >= 2
+    %% Calculate modes and normalize them to unit L2 norm
+    Modes = normalize(InputSnapshots * X);
+
+    if nargout >= 3
+      %%
+      % Sort modes according to their optimal L2 contributions
+      [~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
+    end
+  end

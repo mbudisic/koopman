@@ -33,10 +33,8 @@ else
   validateattributes(T, {'numeric'}, {'increasing','finite','row'});
 end
 
-%%
-% Normalize columns of Modes matrix by their L2 norms
-NormOfModes = sqrt( sum( abs(Modes).^2, 1 ) / size(Modes,1) );
-Modes = bsxfun( @rdivide, Modes, NormOfModes );
+% Normalize L2 norm of modes
+Modes = normalize(Modes);
 
 %%
 % Compute L2 optimal amplitudes

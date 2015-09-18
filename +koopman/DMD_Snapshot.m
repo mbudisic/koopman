@@ -55,21 +55,27 @@ function [lambdas, Modes, Amps] = DMD_Snapshot(Snapshots, dt, varargin)
   %%
   % Eigenvectors of Atilde will give Koopman modes
   Atilde = U' * OutputSnapshots * W * pinv(Sigma);
+
+  % Compute Koopman frequencies
   [w, lambdas] = eigs(Atilde, size(Atilde,1)-2);
   lambdas = diag(lambdas);
-
-  %% Calculate modes
-  %  Modes = Snapshots(:,2:end) * Vx * SxInv * w * diag(1./lambdas);
-  Modes = U * w;
 
   %%
   % Return complex arguments of lambdas, as they have physical
   % interpretations as DecayRate + 1j * Frequency
   lambdas = log(lambdas);
-  if ~isempty(dt)
+
+  if nargin >= 2 && ~isempty(dt)
     lambdas = lambdas/dt;
   end
 
-  %%
-  % Sort modes according to their optimal L2 contributions
-  [~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
+  if nargout >= 2
+    %% Calculate modes and normalize them to unit L2 norm
+    Modes = normalize(U*w);
+
+    if nargout >= 3
+      %%
+      % Sort modes according to their optimal L2 contributions
+      [~,lambdas, Modes, Amps] = sortmodes( lambdas, Modes, Snapshots, dt );
+    end
+  end
