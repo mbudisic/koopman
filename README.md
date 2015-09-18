@@ -60,8 +60,6 @@ A demo (and validation) for the toolbox is located in koopman/validate folder. O
 
 Demo implements an exponentially growing mode used by Duke et al. Spatial shape of the data set is fixed in demo, while the time behavior is set via arguments to the demo function.
 
-## Examples
-
 ### Duke data with decay rate -0.1 and angular frequency 21:
 
 #### Input visualization
