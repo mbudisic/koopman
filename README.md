@@ -3,7 +3,7 @@ Matlab toolbox for Koopman mode decomposition.
 
 Written by: Marko Budisic
 
-Koopman mode decomposition is a method for data analysis that identifies fixed shapes (modes) which evolve by exponential growth/decay + oscillation. For a (very) basic overview and comparison with Proper Orthogonal Decomposition, see a [blog post on Marko's website](https://mbudisic.wordpress.com/2015/03/16/two-mode-decompositions-pod-and-dmd/). For a more in-depth overview, please see references [Mezic 2013](#References) and [Budisic et al. 2012](#References) at the bottom of this file.
+Koopman mode decomposition is a method for data analysis that identifies fixed shapes (modes) which evolve by exponential growth/decay + oscillation. For a (very) basic overview and comparison with Proper Orthogonal Decomposition, see a [blog post on Marko's website](https://mbudisic.wordpress.com/2015/03/16/two-mode-decompositions-pod-and-dmd/). For a more in-depth overview, please see references [Mezic 2013](#references) and [Budisic et al. 2012](#references) at the bottom of this file.
 
 The goal of this toolbox is to collect several common Koopman mode decomposition algorithms, in a documented, transparent code. 
 
@@ -27,7 +27,7 @@ should list the contents of the toolbox.
 
 ## Basic syntax
 
-Currently, the toolbox implements two algorithms based on Dynamic Mode Decomposition ( [Tu et al. 2014](#references), [Duke et al. 2012](#references) ), and one algorithm based on Discrete Fourier Transform. All functions have similar syntax.
+Currently, the toolbox implements two algorithms based on Dynamic Mode Decomposition ([Tu et al. 2014](#references) and [Duke et al. 2012](#references)), and one algorithm based on Discrete Fourier Transform. All functions have similar syntax.
 
 Let's suppose that a ```Snapshots``` matrix holds a multidimensional data sampled from a process, with each column corresponding to a snapshot at a single time instance, and snapshots taken at a time resolution of ```dt```.
 
