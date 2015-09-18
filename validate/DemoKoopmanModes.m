@@ -43,7 +43,7 @@ else
   validateattributes(TCF,{'numeric'},{'scalar','finite','nonnan'})
 end
 
-fprintf('Complex time frequency: %.f  + i %.2f\n', real(TCF), imag(TCF) );
+fprintf('Complex time frequency: %.1f  + i %.1f\n', real(TCF), imag(TCF) );
 
 [U, t, x] = DukeSynthetic('TimeComplexFrequency', TCF, ...
                           'SpaceComplexFrequency', 1+5i);
@@ -130,7 +130,7 @@ subplot(2,2,1);
 % Plot data
 x = x(:);
 step = numel(t);
-step = 1;
+
 truth = U(:,step);
 h = plot(x,truth,'k-','LineWidth',2 );
 h.DisplayName = 'Data';
@@ -162,12 +162,14 @@ end
 subplot(2,2,1);
 title({'Mode shapes compared to data',...
        sprintf('in time step %d/%d', step, numel(t))});
-legend('Location','Best');
+hl = legend('Location','Best');
+hl.FontSize = 7;
 
 subplot(2,2,3);
 title({'Difference betweend data and mode shape',...
        sprintf('in time step %d/%d', step, numel(t))});
-legend('Location','Best');
+hl = legend('Location','Best');
+hl.FontSize = 7;
 
 hold off;
 
@@ -198,7 +200,8 @@ end
 axis( [ [-2,2]*max([abs(real(TCF)),.1]),...
         [-2,2]*abs(imag(TCF)) ] )
 hold off;
-legend('Location','Best');
+hl = legend('Location','Best');
+hl.FontSize = 7;
 xlabel('Decay Rate');
 ylabel('Frequency');
 title({sprintf('Dominant (%d) Koopman evalues',Nmd),...
