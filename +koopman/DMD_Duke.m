@@ -34,7 +34,7 @@ function [lambdas, Modes, Amps] = DMD_Duke(Snapshots, dt, varargin)
   % column-by-column
   [InputSnapshots,OutputSnapshots] = debias(Snapshots, varargin{:});
 
-  [Q,R] = qr(InputSnapshots);
+  [Q,R] = qr(InputSnapshots,0);
 
   S = pinv(R) * Q' * OutputSnapshots;
 
