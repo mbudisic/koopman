@@ -84,14 +84,9 @@ Demo implements an exponentially growing mode used by Duke et al. Spatial shape 
 
 # References
 
-[Budišić, Marko, Ryan M. Mohr, and Igor Mezić. 2012. “Applied Koopmanism.” Chaos: An Interdisciplinary Journal of Nonlinear Science 22 (4)](http://dx.doi.org/10.1063/1.4772195)
-
-[Chen, Kevin K., Jonathan H. Tu, and Clarence W. Rowley. 2012. “Variants of Dynamic Mode Decomposition: Boundary Condition, Koopman, and Fourier Analyses.” Journal of Nonlinear Science 22 (6)](http://dx.doi.org/10.1007/s00332-012-9130-9)
-
-[Duke, Daniel, Julio Soria, and Damon Honnery. 2012. An Error Analysis of the Dynamic Mode Decomposition. Experiments in Fluids 52 (2): 529–42.](http://dx.doi.org/10.1007/s00348-011-1235-7)
-
-[Jovanović, Mihailo R., Peter J. Schmid, and Joseph W. Nichols. 2014. Sparsity-Promoting Dynamic Mode Decomposition. Physics of Fluids 26 (2)](http://dx.doi.org/10.1063/1.4863670)
-
-[Mezić, Igor. 2013. Analysis of Fluid Flows via Spectral Properties of the Koopman Operator. Annual Review of Fluid Mechanics 45 (1): 357–78.](http://dx.doi.org/10.1146/annurev-fluid-011212-140652)
-
-[Tu, Jonathan H., Clarence W. Rowley, Dirk M. Luchtenburg, Steven L. Brunton, and J. Nathan Kutz. 2013. On Dynamic Mode Decomposition: Theory and Applications. Journal of Computational Dynamics.](http://dx.doi.org/10.3934/jcd.2014.1.391)
+* [Budišić, Marko, Ryan M. Mohr, and Igor Mezić. 2012. “Applied Koopmanism.” Chaos: An Interdisciplinary Journal of Nonlinear Science 22 (4)](http://dx.doi.org/10.1063/1.4772195)
+* [Chen, Kevin K., Jonathan H. Tu, and Clarence W. Rowley. 2012. “Variants of Dynamic Mode Decomposition: Boundary Condition, Koopman, and Fourier Analyses.” Journal of Nonlinear Science 22 (6)](http://dx.doi.org/10.1007/s00332-012-9130-9)
+* [Duke, Daniel, Julio Soria, and Damon Honnery. 2012. An Error Analysis of the Dynamic Mode Decomposition. Experiments in Fluids 52 (2): 529–42.](http://dx.doi.org/10.1007/s00348-011-1235-7)
+* [Jovanović, Mihailo R., Peter J. Schmid, and Joseph W. Nichols. 2014. Sparsity-Promoting Dynamic Mode Decomposition. Physics of Fluids 26 (2)](http://dx.doi.org/10.1063/1.4863670)
+* [Mezić, Igor. 2013. Analysis of Fluid Flows via Spectral Properties of the Koopman Operator. Annual Review of Fluid Mechanics 45 (1): 357–78.](http://dx.doi.org/10.1146/annurev-fluid-011212-140652)
+* [Tu, Jonathan H., Clarence W. Rowley, Dirk M. Luchtenburg, Steven L. Brunton, and J. Nathan Kutz. 2013. On Dynamic Mode Decomposition: Theory and Applications. Journal of Computational Dynamics.](http://dx.doi.org/10.3934/jcd.2014.1.391)
