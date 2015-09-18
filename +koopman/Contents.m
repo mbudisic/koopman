@@ -7,3 +7,4 @@
 %   KDFT                    - Compute Koopman modes using Discrete Fourier Transform (FFT).
 %   removemean              - Removes time mean from snapshots.
 %   L2optimalModeAmplitudes - Compute optimal L2 reconstruction of data by modes.
+%   plotSpectrum            - Plot Koopman spectrum.
