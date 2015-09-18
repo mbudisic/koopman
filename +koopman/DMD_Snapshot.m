@@ -43,14 +43,18 @@ function [lambdas, Modes, Amps] = DMD_Snapshot(Snapshots, dt, varargin)
   % column-by-column
   [InputSnapshots,OutputSnapshots] = debias(Snapshots, varargin{:});
 
+  % Compute the modulus (square) of the input snapshot matrix
+  % and its SVD
   Snapshots2 = InputSnapshots' * InputSnapshots;
   [W, Sigma2,~] = svd( Snapshots2 );
   Sigma = sqrt(Sigma2);
 
+  % Projection matrix
   U = InputSnapshots*W*pinv(Sigma);
 
+  %%
+  % Eigenvectors of Atilde will give Koopman modes
   Atilde = U' * OutputSnapshots * W * pinv(Sigma);
-
   [w, lambdas] = eigs(Atilde, size(Atilde,1)-2);
   lambdas = diag(lambdas);
 
