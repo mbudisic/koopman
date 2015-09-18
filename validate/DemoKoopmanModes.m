@@ -2,7 +2,7 @@ function CompFun = DemoKoopmanModes(TCF, noNoise)
 %%DEMOKOOPMANMODES Demonstrate Koopman mode calculation.
 %
 % This function omputes Koopman modes using several different techniques
-% (exact DMD, Duke DMD, and Koopman DFT).
+% (exact DMD, Duke DMD, stabilized snapshot DMD, and Koopman DFT).
 % from a synthetic data set, similar to the one used in
 % Duke, Daniel, Julio Soria, and Damon Honnery. 2012. “An Error Analysis of
 % the Dynamic Mode Decomposition.” Experiments in Fluids 52 (2):
@@ -102,6 +102,9 @@ CompFun(end).Name = 'Exact DMD (de-biased)';
 CompFun(end+1).Eval = @(Data)DMD_Duke( Data, dt, 20 );
 CompFun(end).Name = 'Duke DMD (de-biased)';
 
+CompFun(end+1).Eval = @(Data)DMD_Snapshot( Data, dt, 20 );
+CompFun(end).Name = 'Snapshot DMD (de-biased)';
+
 CompFun(end+1).Eval = @(Data)KDFT( Data, dt);
 CompFun(end).Name = 'Koopman DFT';
 
@@ -154,7 +157,6 @@ for k = 1:numel(CompFun)
   h = plot( x, d, '.-', 'LineWidth',1);
   h.DisplayName = CompFun(k).Name;
   hold all
-
 end
 
 subplot(2,2,1);

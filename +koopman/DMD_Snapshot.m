@@ -1,15 +1,15 @@
-function [lambdas, Modes, Amps] = DMD(Snapshots, dt, db)
+function [lambdas, Modes, Amps] = DMD_Snapshot(Snapshots, dt, varargin)
 %DMD Compute Koopman modes by "exact" Dynamic Mode Decomposition of Tu et al.
 %
-% This is the algorithm by Tu, Jonathan H., Clarence W. Rowley, Dirk
-% M. Luchtenburg, Steven L. Brunton, and J. Nathan Kutz. 2013. “On Dynamic
-% Mode Decomposition: Theory and Applications.” Journa of Computational
-% Dynamics, doi:10.3934/jcd.2014.1.391.
+% This is the stabilized snapshots algorithm by Chen, Kevin K, Jonathan H Tu,
+% and Clarence W Rowley. 2012. “Variants of Dynamic Mode Decomposition:
+% Boundary Condition, Koopman, and Fourier Analyses.” Journal of Nonlinear
+% Science, April. doi:10.1007/s00332-012-9130-9.
 %
-% The algorithm uses the SVD decomposition of the input snapshot matrix to
-% construct the DMD matrix.
+% The algorithm uses the SVD decomposition of the square of the input snapshot
+% matrix to construct the DMD matrix.
 %
-% [lambdas, Modes, Amps] = DMD( Snapshots, dt )
+% [lambdas, Modes, Amps] = DMD_Snapshot( Snapshots, dt )
 %    Compute DMD of data in Snapshots matrix. Columns of Snapshots are
 %    measurements taken dt apart.
 %
@@ -19,7 +19,7 @@ function [lambdas, Modes, Amps] = DMD(Snapshots, dt, db)
 %    to the lambdas at the same index.
 %    Amps   -- optimal L2 amplitudes used to sort the modes in descending order
 %
-% [lambdas, Modes, Amps] = DMD( ..., db ) If set to true, debias first
+% [lambdas, Modes, Amps] = DMD_Snapshot( ..., db ) If set to true, debias first
 %    "de-biases" the data using truncation of SVD modes of the snapshot
 %    matrix, according to:
 %
@@ -27,13 +27,13 @@ function [lambdas, Modes, Amps] = DMD(Snapshots, dt, db)
 %    Mode Decomposition for Applied Koopman Spectral Analysis.”
 %    arXiv:1502.03854 [physics], February. http://arxiv.org/abs/1502.03854.
 %
-%    By default, debias uses all non-negligible SVD directions
+%    By default, db = true, which uses all non-negligible SVD directions
 %    directions. Alternatively, user can request a specific number of
 %    directions by passing an integer through debias.
 %
 % The function returns both conjugate pairs of the modes and their frequencies.
 %
-% See also DMD_DUKE, KDFT, L2OPTIMALMODEAMPLITUDES
+% See also DMD, DMD_DUKE, KDFT, L2OPTIMALMODEAMPLITUDES
 
 % Copyright 2015 under BSD license (see LICENSE file).
 
@@ -41,23 +41,22 @@ function [lambdas, Modes, Amps] = DMD(Snapshots, dt, db)
 
   % We assume that OutputSnapshots = KoopmanOperator( InputSnapshots )
   % column-by-column
-  [InputSnapshots,OutputSnapshots] = debias(Snapshots, db);
+  [InputSnapshots,OutputSnapshots] = debias(Snapshots, varargin{:});
 
-  %% "Exact" DMD
-  [Ux, Sx, Vx] = svd( InputSnapshots, 'econ' );
+  Snapshots2 = InputSnapshots' * InputSnapshots;
+  [W, Sigma2,~] = svd( Snapshots2 );
+  Sigma = sqrt(Sigma2);
 
-  % invert the Sigma matrix, skipping over almost-zero elements
-  SxInv = pinv(Sx);
+  U = InputSnapshots*W*pinv(Sigma);
 
-  %% Eigenvectors of Atilde will give Koopman modes
-  Atilde = Ux' * OutputSnapshots * Vx * SxInv;
+  Atilde = U' * OutputSnapshots * W * pinv(Sigma);
 
   [w, lambdas] = eigs(Atilde, size(Atilde,1)-2);
   lambdas = diag(lambdas);
 
   %% Calculate modes
   %  Modes = Snapshots(:,2:end) * Vx * SxInv * w * diag(1./lambdas);
-  Modes = Ux * w;
+  Modes = U * w;
 
   %%
   % Return complex arguments of lambdas, as they have physical
