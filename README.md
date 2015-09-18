@@ -27,7 +27,7 @@ should list the contents of the toolbox.
 
 ## Basic syntax
 
-Currently, the toolbox implements two algorithms based on Dynamic Mode Decomposition ( [Tu et al. 2014](#References), [Duke et al. 2012](#References) ), and one algorithm based on Discrete Fourier Transform. All functions have similar syntax.
+Currently, the toolbox implements two algorithms based on Dynamic Mode Decomposition ( [Tu et al. 2014](#references), [Duke et al. 2012](#references) ), and one algorithm based on Discrete Fourier Transform. All functions have similar syntax.
 
 Let's suppose that a ```Snapshots``` matrix holds a multidimensional data sampled from a process, with each column corresponding to a snapshot at a single time instance, and snapshots taken at a time resolution of ```dt```.
 
@@ -74,7 +74,7 @@ Here is an example of the demo run for decay rate 0 and angular frequency 20:
 
 ![Results for 0+20i set](img/results-0_20i.png "Visualization of the output for time frequency i20")
 
-# References #
+# References
 
 [Mezić, Igor. 2013. Analysis of Fluid Flows via Spectral Properties of the Koopman Operator. Annual Review of Fluid Mechanics 45 (1): 357–78.](http://dx.doi.org/10.1146/annurev-fluid-011212-140652)
 
