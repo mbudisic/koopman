@@ -3,7 +3,7 @@ Matlab toolbox for Koopman mode decomposition.
 
 Written by: Marko Budisic
 
-Koopman mode decomposition is a method for data analysis that identifies fixed shapes (modes) which evolve by exponential growth/decay + oscillation. For a (very) basic overview and comparison with Proper Orthogonal Decomposition, see a [blog post on Marko's website](https://mbudisic.wordpress.com/2015/03/16/two-mode-decompositions-pod-and-dmd/). For a more in-depth overview, please see references [Mezic 2013](#References) and [Budisic et al. 2012](#References) at the bottom of this file.
+Koopman mode decomposition is a method for data analysis that identifies fixed shapes (modes) which evolve by exponential growth/decay + oscillation. For a (very) basic overview and comparison with Proper Orthogonal Decomposition, see a [blog post on Marko's website](https://mbudisic.wordpress.com/2015/03/16/two-mode-decompositions-pod-and-dmd/). For a more in-depth overview, please see references [Mezic 2013](#references) and [Budisic et al. 2012](#references) at the bottom of this file.
 
 The goal of this toolbox is to collect several common Koopman mode decomposition algorithms, in a documented, transparent code.
 
@@ -80,7 +80,7 @@ Here is an example of the demo run for decay rate 0 and angular frequency 20:
 
 ![Results for 0+20i set](img/results-0_20i.png "Visualization of the output for time frequency i20")
 
-# References #
+# References
 
 [Budišić, Marko, Ryan M. Mohr, and Igor Mezić. 2012. “Applied Koopmanism.” Chaos: An Interdisciplinary Journal of Nonlinear Science 22 (4)](http://dx.doi.org/10.1063/1.4772195)
 
