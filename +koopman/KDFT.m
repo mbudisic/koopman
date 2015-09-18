@@ -35,6 +35,9 @@ N = size(Snapshots, 2);
 Fs = 1/dt;
 
 % Evaluate FFT and rescale it appropriately
+if mod(N,2) == 0
+    N = N+1;
+end
 F = fft( Snapshots, N, 2 );
 Np = size(F,2);
 F = F/Np;

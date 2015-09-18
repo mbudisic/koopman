@@ -46,7 +46,7 @@ function [lambdas, Modes, Amps] = DMD_Snapshot(Snapshots, dt, varargin)
   % Compute the modulus (square) of the input snapshot matrix
   % and its SVD
   Snapshots2 = InputSnapshots' * InputSnapshots;
-  [W, Sigma2,~] = svd( Snapshots2 );
+  [W, Sigma2,~] = svd( Snapshots2, 'econ' );
   Sigma = sqrt(Sigma2);
 
   % Projection matrix

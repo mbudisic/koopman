@@ -27,7 +27,7 @@ Vand = exp( bsxfun( @times, lambdas, t ) );
 
 %%
 % Solve L2 optimization, see Jovanovic et al (2014)
-[U,Sigma,V] = svd(Snapshots);
+[U,Sigma,V] = svd(Snapshots,'econ');
 
 Y = U'*Modes;
 P = (Y'*Y) .* conj(Vand*Vand');
