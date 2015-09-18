@@ -152,22 +152,17 @@ for k = 1:numel(CompFun)
   subplot(2,2,1);
   h = plot( x, y, '.-', 'LineWidth',1);
   h.DisplayName = CompFun(k).Name;
-  legend('Location','Best');
 
   subplot(2,2,3);
   h = plot( x, d, '.-', 'LineWidth',1);
   h.DisplayName = CompFun(k).Name;
   hold all
-
-  legend('Location','Best');
-  pause
-
 end
 
 subplot(2,2,1);
 title({'Mode shapes compared to data',...
        sprintf('in time step %d/%d', step, numel(t))});
-
+legend('Location','Best');
 
 subplot(2,2,3);
 title({'Difference betweend data and mode shape',...
