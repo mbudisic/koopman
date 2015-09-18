@@ -7,7 +7,7 @@ Koopman mode decomposition is a method for data analysis that identifies fixed s
 
 The goal of this toolbox is to collect several common Koopman mode decomposition algorithms, in a documented, transparent code.
 
-The code is licensed under a BSD3 license, found in the accompanying LICENSE file.
+The code is licensed under a BSD3 license, found in the accompanying [LICENSE](./LICENSE) file.
 
 
 # Installation
