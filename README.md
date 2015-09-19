@@ -15,9 +15,9 @@ The code is licensed under a BSD3 license, found in the accompanying [LICENSE](.
 
 # Installation
 
-Place the toolbox on the drive, e.g., to ~/MatlabToolbox/koopman, and add its top folder to Matlab path.
+Place the toolbox on the drive, e.g., to `~/MatlabToolbox/koopman` (from now on referred to as `[toolboxfolder]`, and add its top folder to Matlab path.
 
-    >>> addpath("~/MatlabToolbox/koopman")
+    >>> addpath("[toolboxfolder]")
     >>> savepath
 
 Then functions from the toolbox can be accessed via namespace "koopman". Executing
@@ -56,7 +56,7 @@ For further documentation, see help lines for individual functions in the koopma
 
 ## Validation script
 
-A demo (and validation) for the toolbox is located in koopman/validate folder. Once the namespace +koopman is in the path, demo can be run by
+A demo (and validation) for the toolbox is located in koopman/validate folder. Once the namespace `+koopman` is in the path, demo can be run by
 
     >> cd [toolboxfolder]/validate
     >> DemoKoopmanModes
@@ -85,7 +85,7 @@ Demo implements an exponentially growing mode used by Duke et al. Spatial shape 
 
 ## Von Karman street example
 
-A more realistic application can be found in `examples/VonKarmanStreet.m`. Change your current directory to `koopman/examples` and run
+A more realistic application can be found in `[toolboxfolder]/examples/VonKarmanStreet.m`. Change your current directory to `[toolboxfolder]/examples` and run
 
     >> web(publish('VonKarmanStreet'))
 
