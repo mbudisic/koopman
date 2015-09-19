@@ -85,7 +85,7 @@ Demo implements an exponentially growing mode used by Duke et al. Spatial shape 
 
 ## Von Karman street example
 
-A more realistic application can be found in `examples/VonKarmanStreet.m`. Run
+A more realistic application can be found in `examples/VonKarmanStreet.m`. Change your current directory to `koopman/examples` and run
 
     >> web(publish('VonKarmanStreet'))
 
