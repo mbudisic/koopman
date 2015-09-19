@@ -54,7 +54,7 @@ Output variables are
 
 For further documentation, see help lines for individual functions in the koopman namespace.
 
-## Demonstration script
+## Validation script
 
 A demo (and validation) for the toolbox is located in koopman/validate folder. Once the namespace +koopman is in the path, demo can be run by
 
@@ -82,6 +82,32 @@ Demo implements an exponentially growing mode used by Duke et al. Spatial shape 
 #### Output
 
 ![Results for 0+20i set](img/results-0_20i.png "Visualization of the output for time frequency i20")
+
+## Von Karman street example
+
+A more realistic application can be found in `examples/VonKarmanStreet.m`. Run
+
+    >> web(publish('VonKarmanStreet'))
+
+to see the step-by-step guide to how the toolbox may be used. The required data file can be downloaded [at this link (~80 MB)](https://dl.dropboxusercontent.com/u/14017882/data/VonKarmanStreet.mat).
+
+The data used is a flow past cylinder, computed by Lattice Boltzmann technique, implemented by [FlowKit Inc.](https://youtu.be/M2PqI2JD2jo) .
+
+#### Input data
+
+![Speed and vorticity of Von Karman Street](img/von-karman-input.png)
+
+#### Output spectrum
+
+![Koopman spectrum (DMD) of Von Karman Street](img/von-karman-spectrum.png)
+
+Size is the L2-optimal amplitude of the mode, color is the L2-optimal phase.
+
+#### Output modes
+
+![Koopman modes (DMD) of Von Karman Street](img/von-karman-modes.png)
+
+Each row corresponds to a single mode, visualized in speed and vorticity.
 
 # References
 

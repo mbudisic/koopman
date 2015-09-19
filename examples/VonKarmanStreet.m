@@ -7,7 +7,7 @@
 function VonKarmanStreet( recompute )
 
 %% Load the velocity field
-assert(exist('VonKarmanStreet.mat','file'),...
+assert( exist('VonKarmanStreet.mat','file') ~= 0,...
        'Download data file from <a href="https://dl.dropboxusercontent.com/u/14017882/data/VonKarmanStreet.mat">https://dl.dropboxusercontent.com/u/14017882/data/VonKarmanStreet.mat</a>')
 load VonKarmanStreet.mat
 disp(DESCRIPTION)
