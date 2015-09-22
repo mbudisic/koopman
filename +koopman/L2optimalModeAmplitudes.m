@@ -11,6 +11,10 @@ function Amp = L2optimalModeAmplitudes( lambdas, Modes, Snapshots, t )
 % AMP = L2OPTIMALMODEAMPLITUDES( LAMBDAS, MODES, SNAPSHOTS, T )
 %   Returns a column-vector of amplitudes.
 %
+% See also DMD_DUKE, KDFT, DMD, DMD_SNAPSHOT
+
+% Copyright 2015 under BSD license (see LICENSE file).
+
 
 import koopman.*
 
