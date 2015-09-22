@@ -8,3 +8,4 @@
 %   removemean              - Removes time mean from snapshots.
 %   L2optimalModeAmplitudes - Compute optimal L2 reconstruction of data by modes.
 %   plotSpectrum            - Plot Koopman spectrum.
+%   reconstruct             - Reconstruct data using Koopman mode information.
