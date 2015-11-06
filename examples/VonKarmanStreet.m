@@ -13,6 +13,8 @@ load VonKarmanStreet.mat
 disp(DESCRIPTION)
 disp(README)
 
+disp('Running computation...');
+
 %% Compute speed and vorticity
 % These quantities will be used as measurements
 
@@ -26,13 +28,13 @@ Ux(:,:,end+1,:) = Ux(:,:,end,:);
 Uy(:,end+1,:,:) = Uy(:,end,:,:);
 
 % vorticity
-W = Ux(2,:,:,:) - Uy(1,:,:,:);
+Vorticity = Ux(2,:,:,:) - Uy(1,:,:,:);
 
 % speed
-V = sqrt(sum(U.^2,1));
+Speed = sqrt(sum(U.^2,1));
 
 % stack data
-Data = cat(1, V, W );
+Data = cat(1, Speed, Vorticity );
 [nVars, nRows, nCols, nSteps] = size(Data);
 % Data is a 4-d array
 
