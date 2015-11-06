@@ -1,5 +1,5 @@
 function [lambdas, Modes, Amps] = DMD_Snapshot(Snapshots, dt, varargin)
-%DMD Compute Koopman modes by "exact" Dynamic Mode Decomposition of Tu et al.
+%DMD_SNAPSHOT Compute Koopman modes by stabilized snapshots algorithm by Chen et al.
 %
 % This is the stabilized snapshots algorithm by Chen, Kevin K, Jonathan H Tu,
 % and Clarence W Rowley. 2012. “Variants of Dynamic Mode Decomposition:
