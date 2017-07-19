@@ -74,7 +74,7 @@ else
   set(gca,'Color',repmat(0.5,[1,3]));
 end
 
-xlabel('Decay Rate');
+xlabel('Decay/Growth Rate');
 ylabel('Frequency');
 
 %%
