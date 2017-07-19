@@ -2,9 +2,9 @@
 Matlab toolbox for Koopman mode decomposition.
 
 By Marko Budisic </br>
-Department of Mathematics, University of Wisconsin - Madison </br>
-marko@math.wisc.edu </br>
-http://mbudisic.wordpress.com
+Department of Mathematics, Clarkson University</br>
+marko@clarkson.edu </br>
+http://www.clarkson.edu/~mbudisic
 
 Koopman mode decomposition is a method for data analysis that identifies fixed shapes (modes) which evolve by exponential growth/decay + oscillation. For a (very) basic overview and comparison with Proper Orthogonal Decomposition, see a [blog post on Marko's website](https://mbudisic.wordpress.com/2015/03/16/two-mode-decompositions-pod-and-dmd/). For a more in-depth overview, please see references [Mezic 2013](#references) and [Budisic et al. 2012](#references) at the bottom of this file.
 
@@ -89,7 +89,7 @@ A more realistic application can be found in `[toolboxfolder]/examples/VonKarman
 
     >> web(publish('VonKarmanStreet'))
 
-to see the step-by-step guide to how the toolbox may be used. The required data file can be downloaded [at this link (~80 MB)](https://dl.dropboxusercontent.com/u/14017882/data/VonKarmanStreet.mat).
+to see the step-by-step guide to how the toolbox may be used. The required data file can be downloaded [at this link (~170 MB)](https://www.dropbox.com/s/p0cl8t7q9l2qwe4/VonKarmanStreet.mat?dl=1).
 
 The data used is a flow past cylinder, computed by Lattice Boltzmann technique, implemented by [FlowKit Inc.](https://youtu.be/M2PqI2JD2jo) .
 
