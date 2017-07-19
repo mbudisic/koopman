@@ -2,22 +2,35 @@
 % This is a demo of Koopman decomposition of a fluid flow data.
 %%
 
-% Copyright 2015 under BSD license (see LICENSE file).
+% Copyright 2017 under BSD license (see LICENSE file).
 
 function VonKarmanStreet( recompute )
 
+vonkarmanurl='https://www.dropbox.com/s/p0cl8t7q9l2qwe4/VonKarmanStreet.mat?dl=1';
+vonkarmanlocal='VonKarmanStreet.mat';
+
 %% Load the velocity field
-assert( exist('VonKarmanStreet.mat','file') ~= 0,...
-       'Download data file from <a href="https://dl.dropboxusercontent.com/u/14017882/data/VonKarmanStreet.mat">https://dl.dropboxusercontent.com/u/14017882/data/VonKarmanStreet.mat</a>')
-load VonKarmanStreet.mat
+if ~exist(vonkarmanlocal,'file')
+  warning('%s file missing.', vonkarmanlocal);
+  fprintf(['Press <Enter> to download the file (ca 170MB) from Dropbox to this folder.\n URL: %s \n Otherwise press ' ...
+           'Ctrl-C to stop.\n'], vonkarmanurl);
+  pause
+  disp('Downloading (this may take a few minutes, depending on your connection)');
+  websave(vonkarmanlocal, vonkarmanurl );
+end
+
+assert( exist(vonkarmanlocal,'file') == 2, '%s does not exist', vonkarmanlocal );
+
+fprintf('Loading %s',vonkarmanlocal);
+load(vonkarmanlocal);
 disp(DESCRIPTION)
 disp(README)
 
-disp('Running computation...');
+
 
 %% Compute speed and vorticity
 % These quantities will be used as measurements
-
+disp('Computing speed and vorticity (observables)...');
 %
 % Evaluate discrete derivatives used to compute vorticity
 Ux = diff(U, 1, 3 );
@@ -41,7 +54,10 @@ Data = cat(1, Speed, Vorticity );
 % plot the first step
 plotData(Data, 1)
 
+
+
 %% Format data to suit Koopman toolbox
+disp('Formatting to suit Koopman toolbox...');
 
 % Each column in Snapshots contains all the data recorded at a single timestep
 Snapshots = reshape(Data, nVars*nRows*nCols, nSteps );
